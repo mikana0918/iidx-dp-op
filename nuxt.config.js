@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+const envPath = `.env.${process.env.ENV || 'local'}`
+require('dotenv').config({ path: envPath })
 
 export default {
   target: 'static',
@@ -36,6 +38,13 @@ export default {
     '@nuxtjs/vuetify',
     // https://typed-vuex.roe.dev/
     'nuxt-typed-vuex',
+    '@nuxtjs/proxy',
+    [
+      '@nuxtjs/dotenv',
+      {
+        filename: envPath,
+      },
+    ],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -79,7 +88,10 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    // baseURL: process.env.WEB_ENDPOINT,
+    // credentials: true,
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -109,4 +121,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  proxy: {},
 }
