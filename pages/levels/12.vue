@@ -23,7 +23,30 @@
         :fixed-header="true"
         :loading="loading"
         loading-text="データの取得に失敗しました。Failed to fetch data."
-      ></v-data-table>
+      >
+        <!-- 1p/2p options -->
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
+        <template #item.suggest="{ item }">
+          <v-tooltip top>
+            <template #activator="{ on, attrs }">
+              <v-chip class="ma-2" v-bind="attrs" v-on="on">
+                {{ item.suggest }}
+              </v-chip>
+            </template>
+            <span
+              >- : No Option / M : MIRROR / R : RANDOM / RR : R-RANDOM / SR :
+              S-RAN</span
+            >
+          </v-tooltip>
+        </template>
+        <!-- flip -->
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
+        <template #item.flip="{ item }">
+          <div v-show="item.flip === 'true'">
+            <v-chip class="ma-2"> FLIP </v-chip>
+          </div>
+        </template>
+      </v-data-table>
     </div>
   </div>
 </template>
