@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div style="position: fixed; width: 88%">
+  <div>
+    <div class="container table-search">
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -11,7 +11,7 @@
         ></v-text-field>
       </v-card-title>
     </div>
-    <div style="padding-top: 30%">
+    <div class="table-data">
       <v-data-table
         :headers="headers"
         :items="dpOptionsData"
@@ -54,4 +54,18 @@ export default Vue.extend({
 })
 </script>
 
-<style></style>
+<style scoped>
+.v-card__title {
+  padding: unset !important;
+}
+.table-search {
+  position: fixed;
+  width: 84vw;
+  padding: unset;
+  z-index: 999999;
+}
+
+.table-data {
+  padding-top: 110px;
+}
+</style>
