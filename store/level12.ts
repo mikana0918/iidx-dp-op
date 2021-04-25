@@ -1,12 +1,11 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
-import { AxiosResponse } from 'axios'
-import { DPOption } from '~/datatypes/level12/level12-types'
+// import { DPOption } from '~/datatypes/level12/level12-types'
 
 export const state = () => ({
   dpOptionsData: undefined as
     | {
         succeeded: boolean
-        options: Array<DPOption>
+        options: any
       }
     | undefined,
 })
@@ -14,7 +13,7 @@ export const state = () => ({
 export const getters = getterTree(state, {})
 
 export const mutations = mutationTree(state, {
-  SET_DP_OPTIONS_DATA_SUCCESS(state, { data }: { data: Array<DPOption> }) {
+  SET_DP_OPTIONS_DATA_SUCCESS(state, { data }: { data: any }) {
     state.dpOptionsData = {
       succeeded: true,
       options: data,
@@ -31,12 +30,9 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async getDPOptionsData(this, { commit }) {
+    getDPOptionsData(this, { commit }) {
       try {
-        const res: AxiosResponse<Array<DPOption>> = await this.$axios.get(
-          `${process.env.WEB_ENDPOINT}/iidx12.json`
-        )
-        commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: res.data })
+        commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: process.env.iidx12Data })
       } catch (e) {
         console.warn(e)
         commit('SET_DP_OPTIONS_DATA_FAIL', e.response)

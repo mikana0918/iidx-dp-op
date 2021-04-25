@@ -62,7 +62,7 @@ export default Vue.extend({
       loading: false,
       headers: [
         {
-          text: '曲名(Music Name)',
+          text: '曲名(Title)',
           align: 'start',
           sortable: true,
           value: 'name',
@@ -74,12 +74,6 @@ export default Vue.extend({
   },
   async fetch() {
     this.loading = true
-    // [NOTE] not use it because of SSR issue (not loading XMLHTTPRequest)
-    // const firebaseRef = await this.$fire.storage
-    //   .ref()
-    //   .child('option_config')
-    //   .child('iidx12.json')
-
     await this.$accessor.level12.getDPOptionsData()
     this.loading = false
   },

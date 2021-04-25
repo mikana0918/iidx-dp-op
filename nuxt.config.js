@@ -1,6 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
+
 const envPath = `.env.${process.env.ENV || 'local'}`
 require('dotenv').config({ path: envPath })
+
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const fs = require('fs')
+const iidx12Data = JSON.parse(
+  fs.readFileSync('assets/json/iidx12.json', 'utf-8')
+)
 
 export default {
   target: 'static',
@@ -19,6 +26,10 @@ export default {
   loading: {
     color: 'white',
     height: '1px',
+  },
+
+  env: {
+    iidx12Data,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
