@@ -21,6 +21,8 @@
         :search="search"
         mobile-breakpoint="0"
         :fixed-header="true"
+        :loading="loading"
+        loading-text="データの取得に失敗しました。Failed to fetch data."
       ></v-data-table>
     </div>
   </div>
@@ -39,20 +41,23 @@ export default Vue.extend({
         {
           text: '曲名(Music Name)',
           align: 'start',
-          sortable: false,
+          sortable: true,
           value: 'name',
         },
-        { text: 'オプション(Options)', value: 'suggest' },
+        { text: '1P/2P(Options)', value: 'suggest' },
+        { text: 'FLIP', value: 'flip' },
       ],
     }
   },
   async fetch() {
     this.loading = true
+    const firebaseRef = await this.$fire.storage
+      .ref()
+      .child('option_config')
+      .child('iidx12.json')
+
     await this.$accessor.level12.getDPOptionsData({
-      firebaseRef: this.$fire.storage
-        .ref()
-        .child('option_config')
-        .child('iidx12.json'),
+      firebaseRef,
     })
     this.loading = false
   },
