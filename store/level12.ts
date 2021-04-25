@@ -15,8 +15,6 @@ export const getters = getterTree(state, {})
 
 export const mutations = mutationTree(state, {
   SET_DP_OPTIONS_DATA_SUCCESS(state, { data }: { data: Array<DPOption> }) {
-    console.log('mutation')
-    console.log(data)
     state.dpOptionsData = {
       succeeded: true,
       options: data,
@@ -33,18 +31,16 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async getDPOptionsData(this, { commit }) {
-      const lTwelveDataUri: string =
-        'https://raw.githubusercontent.com/tsniper1237/tsniper1237.github.io/master/iidx12.json'
-      try {
-        const res: AxiosResponse<Array<DPOption>> = await this.$axios.get(
-          lTwelveDataUri
-        )
-        commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: res.data })
-      } catch (e) {
-        console.warn(e)
-        commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
-      }
+    async getDPOptionsData(this, { commit }, { firebaseRef }) {
+      await firebaseRef.getDownloadURL().then(async (url: string) => {
+        try {
+          const res: AxiosResponse<Array<DPOption>> = await this.$axios.get(url)
+          commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: res.data })
+        } catch (e) {
+          console.warn(e)
+          commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
+        }
+      })
     },
   }
 )

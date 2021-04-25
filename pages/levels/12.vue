@@ -15,11 +15,11 @@
       <v-data-table
         :headers="headers"
         :items="dpOptionsData"
-        items-per-page="20"
+        :items-per-page="30"
         class="elevation-1"
         :search="search"
         mobile-breakpoint="0"
-        fixed-header="true"
+        :fixed-header="true"
       ></v-data-table>
     </div>
   </div>
@@ -43,7 +43,12 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    await this.$accessor.level12.getDPOptionsData()
+    await this.$accessor.level12.getDPOptionsData({
+      firebaseRef: this.$fire.storage
+        .ref()
+        .child('option_config')
+        .child('iidx12.json'),
+    })
   },
   computed: {
     dpOptionsData() {
