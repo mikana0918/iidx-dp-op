@@ -1,5 +1,6 @@
 <template>
   <div>
+    <whole-screen-loader :is-loading="loading"></whole-screen-loader>
     <div class="container table-search">
       <v-card-title>
         <v-text-field
@@ -27,10 +28,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 export default Vue.extend({
+  components: { wholeScreenLoader },
   data() {
     return {
       search: '',
+      loading: false,
       headers: [
         {
           text: '曲名(Music Name)',
@@ -43,12 +47,14 @@ export default Vue.extend({
     }
   },
   async fetch() {
+    this.loading = true
     await this.$accessor.level12.getDPOptionsData({
       firebaseRef: this.$fire.storage
         .ref()
         .child('option_config')
         .child('iidx12.json'),
     })
+    this.loading = false
   },
   computed: {
     dpOptionsData() {
@@ -59,7 +65,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-card__title {
   padding: unset !important;
 }
