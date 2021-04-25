@@ -31,16 +31,18 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async getDPOptionsData(this, { commit }, { firebaseRef }) {
-      await firebaseRef.getDownloadURL().then(async (url: string) => {
-        try {
-          const res: AxiosResponse<Array<DPOption>> = await this.$axios.get(url)
-          commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: res.data })
-        } catch (e) {
-          console.warn(e)
-          commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
-        }
-      })
+    async getDPOptionsData(this, { commit }) {
+      // await firebaseRef.getDownloadURL().then(async (url: string) => {
+      try {
+        const res: AxiosResponse<Array<DPOption>> = await this.$axios.get(
+          '/iidx12.json'
+        )
+        commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: res.data })
+      } catch (e) {
+        console.warn(e)
+        commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
+      }
+      // })
     },
   }
 )

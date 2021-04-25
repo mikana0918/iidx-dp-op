@@ -74,14 +74,13 @@ export default Vue.extend({
   },
   async fetch() {
     this.loading = true
-    const firebaseRef = await this.$fire.storage
-      .ref()
-      .child('option_config')
-      .child('iidx12.json')
+    // [NOTE] not use it because of SSR issue (not loading XMLHTTPRequest)
+    // const firebaseRef = await this.$fire.storage
+    //   .ref()
+    //   .child('option_config')
+    //   .child('iidx12.json')
 
-    await this.$accessor.level12.getDPOptionsData({
-      firebaseRef,
-    })
+    await this.$accessor.level12.getDPOptionsData()
     this.loading = false
   },
   computed: {
