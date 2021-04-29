@@ -73,15 +73,19 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    this.loading = true
     await this.$accessor.level12.getDPOptionsData()
-    this.loading = false
   },
   computed: {
     dpOptionsData() {
       const op = this.$accessor.level12.dpOptionsData
       return op?.options
     },
+  },
+  created() {
+    this.loading = true
+  },
+  mounted() {
+    this.loading = false
   },
 })
 </script>
