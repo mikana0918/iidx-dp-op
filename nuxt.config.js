@@ -110,6 +110,7 @@ export default {
         },
       },
     ],
+    '@nuxtjs/sentry',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -122,6 +123,17 @@ export default {
   pwa: {
     manifest: {
       lang: 'en',
+    },
+  },
+
+  sentry: {
+    dsn:
+      'https://6f102efa13d0468ba701072464b428aa@o329849.ingest.sentry.io/5741040', // Enter your project's DSN here
+    // Additional Module Options go here
+    // https://sentry.nuxtjs.org/sentry/options
+    config: {
+      // Add native Sentry config here
+      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
     },
   },
 
