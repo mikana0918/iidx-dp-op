@@ -5,6 +5,9 @@ require('dotenv').config({ path: envPath })
 
 // eslint-disable-next-line nuxt/no-cjs-in-config
 const fs = require('fs')
+
+// read json file here
+// [todo] move other directory for common use
 const iidx12Data = JSON.parse(
   fs.readFileSync('assets/json/iidx12.json', 'utf-8')
 )

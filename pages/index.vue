@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <whole-screen-loader :is-loading="loading"></whole-screen-loader>
     <v-row dense>
       <!-- TOP アイキャッチ -->
       <v-col cols="12">
@@ -72,5 +73,19 @@
 
 <script>
 import Vue from 'vue'
-export default Vue.extend({})
+import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
+export default Vue.extend({
+  components: { wholeScreenLoader },
+  data() {
+    return {
+      loading: false,
+    }
+  },
+  created() {
+    this.loading = true
+  },
+  mounted() {
+    this.loading = false
+  },
+})
 </script>
