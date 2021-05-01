@@ -1,5 +1,4 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
-// import { DPOption } from '~/datatypes/level12/level12-types'
 
 export const state = () => ({
   dpOptionsData: undefined as

@@ -99,8 +99,8 @@ export default {
           auth: {
             persistence: 'local', // default
             initialize: {
-              onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-              onAuthStateChangedAction: 'onAuthStateChangedAction',
+              onAuthStateChangedMutation: 'auth/ON_AUTH_STATE_CHANGED_MUTATION',
+              onAuthStateChangedAction: 'auth/onAuthStateChangedAction',
               subscribeManually: false,
             },
             ssr: false, // default
