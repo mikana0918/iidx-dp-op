@@ -9,6 +9,7 @@
     </template>
     <login-modal-presentation
       @show-dialog="showDialog"
+      @google-login="googleLogin"
     ></login-modal-presentation>
   </v-dialog>
 </template>
@@ -34,6 +35,9 @@ export default Vue.extend({
   methods: {
     showDialog(show: boolean) {
       this.dialog = show
+    },
+    googleLogin() {
+      this.$accessor.auth.googleSignInWithRedirect()
     },
   },
 })

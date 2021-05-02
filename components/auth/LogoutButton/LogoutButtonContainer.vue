@@ -1,17 +1,24 @@
 <template>
-  <div class="pa-2">
-    <v-btn block> Logout </v-btn>
-  </div>
+  <logout-button-presentation @sign-out="signOut"></logout-button-presentation>
 </template>
 
 <script>
 import Vue from 'vue'
+import LogoutButtonPresentation from '~/components/auth/LogoutButton/Presentation/LooutButtonPresentation'
 export default Vue.extend({
+  components: {
+    LogoutButtonPresentation,
+  },
   props: {
     isAuthenticated: {
       type: Boolean,
       default: false,
       required: true,
+    },
+  },
+  methods: {
+    signOut() {
+      this.$accessor.auth.signOut()
     },
   },
 })

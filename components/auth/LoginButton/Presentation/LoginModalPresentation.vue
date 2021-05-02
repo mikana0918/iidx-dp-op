@@ -19,7 +19,7 @@ export default Vue.extend({
       this.$emit('show-dialog', show)
     },
     googleLogin() {
-      this.$accessor.auth.googleSignInWithRedirect()
+      this.$emit('google-login')
     },
   },
 })
