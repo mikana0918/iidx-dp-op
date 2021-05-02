@@ -22,12 +22,17 @@
           router
           exact
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
+          <template v-if="item.isCategory" style="text-align: center">{{
+            item.title
+          }}</template>
+          <template v-else>
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </template>
         </v-list-item>
       </v-list>
 
@@ -74,11 +79,35 @@ export default Vue.extend({
           icon: 'mdi-apps',
           title: 'Top',
           to: '/',
+          isCategory: false,
+        },
+        {
+          icon: 'mdi-apps',
+          title: 'Options',
+          isCategory: true,
         },
         {
           icon: 'mdi-star',
-          title: 'Level 12',
+          title: 'Options/☆12',
           to: '/levels/12',
+          isCategory: false,
+        },
+        {
+          icon: 'mdi-apps',
+          title: 'ClearLamp',
+          isCategory: true,
+        },
+        // {
+        //   icon: 'mdi-check',
+        //   title: 'ClearLamp/DBM',
+        //   to: '/account/lamp-manager/dbm',
+        //   isCategory: false,
+        // },
+        {
+          icon: 'mdi-check',
+          title: 'ClearLamp/DBR',
+          to: '/account/lamp-manager/dbr',
+          isCategory: false,
         },
       ],
       miniVariant: false,

@@ -1,15 +1,17 @@
 import colors from 'vuetify/es5/util/colors'
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const fs = require('fs')
 
 const envPath = `.env.${process.env.ENV || 'local'}`
 require('dotenv').config({ path: envPath })
-
-// eslint-disable-next-line nuxt/no-cjs-in-config
-const fs = require('fs')
 
 // read json file here
 // [todo] move other directory for common use
 const iidx12Data = JSON.parse(
   fs.readFileSync('assets/json/iidx12.json', 'utf-8')
+)
+const dbrListForKaiden = JSON.parse(
+  fs.readFileSync('assets/json/dbr/silent-kaiden-list.json', 'utf-8')
 )
 
 export default {
@@ -33,6 +35,7 @@ export default {
 
   env: {
     iidx12Data,
+    dbrListForKaiden,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
