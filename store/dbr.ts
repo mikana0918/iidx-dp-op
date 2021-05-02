@@ -1,10 +1,10 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
 
 export const state = () => ({
-  dpOptionsData: undefined as
+  dbrListForKaiden: undefined as
     | {
         succeeded: boolean
-        options: any
+        dbrList: any
       }
     | undefined,
 })
@@ -12,16 +12,16 @@ export const state = () => ({
 export const getters = getterTree(state, {})
 
 export const mutations = mutationTree(state, {
-  SET_DP_OPTIONS_DATA_SUCCESS(state, { data }: { data: any }) {
-    state.dpOptionsData = {
+  SET_DBR_LIST_DATA_SUCCESS(state, { data }: { data: any }) {
+    state.dbrListForKaiden = {
       succeeded: true,
-      options: data,
+      dbrList: data,
     }
   },
-  SET_DP_OPTIONS_DATA_FAIL(state) {
-    state.dpOptionsData = {
+  SET_DBR_LIST_DATA_FAIL(state) {
+    state.dbrListForKaiden = {
       succeeded: false,
-      options: [],
+      dbrList: [],
     }
   },
 })
@@ -29,12 +29,14 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    getDPOptionsData(this, { commit }) {
+    getDBRListForKaiden(this, { commit }) {
       try {
-        commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: process.env.iidx12Data })
+        commit('SET_DBR_LIST_DATA_SUCCESS', {
+          data: process.env.dbrListForKaiden,
+        })
       } catch (e) {
         console.warn(e)
-        commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
+        commit('SET_DBR_LIST_DATA_FAIL', e.response)
       }
     },
   }
