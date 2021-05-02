@@ -35,12 +35,7 @@
           </template>
         </v-list-item>
       </v-list>
-
-      <template #append>
-        <append-navigation-drawer
-          :is-authenticated="isAuthenticated"
-        ></append-navigation-drawer>
-      </template>
+      <!-- <template #append></template> -->
     </v-navigation-drawer>
 
     <v-app-bar :clipped-left="clipped" fixed app>
@@ -62,12 +57,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AppendNavigationDrawer from '~/components/layouts/default/AppendNavigationDrawer.vue'
 import PrependNavigationDrawer from '~/components/layouts/default/PrependNavigationDrawer.vue'
 export default Vue.extend({
   components: {
     PrependNavigationDrawer,
-    AppendNavigationDrawer,
   },
   data() {
     return {
