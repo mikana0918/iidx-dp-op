@@ -1,11 +1,11 @@
 <template>
-  <v-list-item two-line>
+  <v-list-item v-if="isAuthenticated" two-line>
     <v-list-item-avatar>
-      <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+      <img :src="authUser.photoURL" />
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title>Jane Smith</v-list-item-title>
+      <v-list-item-title>{{ authUser.displayName }}</v-list-item-title>
       <v-list-item-subtitle>Logged In</v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
@@ -13,7 +13,20 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({})
+export default Vue.extend({
+  props: {
+    isAuthenticated: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    authUser: {
+      type: Object,
+      default: undefined,
+      required: false,
+    },
+  },
+})
 </script>
 
 <style></style>

@@ -14,7 +14,11 @@ export const state = () => ({
     | undefined,
 })
 
-export const getters = getterTree(state, {})
+export const getters = getterTree(state, {
+  loggedIn(state): boolean {
+    return !!state.authUserData?.uid
+  },
+})
 
 export const mutations = mutationTree(state, {
   SET_AUTH_USER_DATA_SUCCESS(state, { user }) {

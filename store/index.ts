@@ -2,6 +2,7 @@ import { getAccessorType, actionTree } from 'typed-vuex'
 
 // Import all your submodules
 import * as level12 from '~/store/level12'
+import * as auth from '~/store/auth'
 
 // Keep your existing vanilla Vuex code for state, getters, mutations, actions, plugins, etc.
 export const state = () => ({})
@@ -21,5 +22,6 @@ export const accessorType = getAccessorType({
   modules: {
     // The key (submodule) needs to match the Nuxt namespace (e.g. ~/store/submodule.ts)
     level12,
+    auth,
   },
 })

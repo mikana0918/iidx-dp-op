@@ -8,8 +8,12 @@
       app
     >
       <template #prepend>
-        <prepend-navigation-drawer></prepend-navigation-drawer>
+        <prepend-navigation-drawer
+          :is-authenticated="isAuthenticated"
+          :auth-user="authUser"
+        ></prepend-navigation-drawer>
       </template>
+
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -26,15 +30,20 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
       <template #append>
-        <append-navigation-drawer></append-navigation-drawer>
+        <append-navigation-drawer
+          :is-authenticated="isAuthenticated"
+        ></append-navigation-drawer>
       </template>
     </v-navigation-drawer>
+
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
+
     <v-main>
       <v-container>
         <nuxt />
@@ -82,6 +91,15 @@ export default Vue.extend({
     renderCopyright(): string {
       return `${new Date().getFullYear()} IIDX DP Options Database`
     },
+    authUser() {
+      return this.$accessor.auth.authUserData
+    },
+    isAuthenticated(): boolean {
+      return this.$accessor.auth.loggedIn
+    },
+  },
+  mounted() {
+    this.$accessor.auth.onAuthStateChanged()
   },
 })
 </script>
