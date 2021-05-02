@@ -1,5 +1,8 @@
 <template>
-  <logout-button-presentation @sign-out="signOut"></logout-button-presentation>
+  <logout-button-presentation
+    v-show="isAuthenticated"
+    @sign-out="signOut"
+  ></logout-button-presentation>
 </template>
 
 <script>
