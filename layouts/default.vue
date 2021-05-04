@@ -35,6 +35,7 @@
           </template>
         </v-list-item>
       </v-list>
+      <!-- you can append some container here -->
       <!-- <template #append></template> -->
     </v-navigation-drawer>
 
@@ -58,6 +59,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import PrependNavigationDrawer from '~/components/layouts/default/PrependNavigationDrawer.vue'
+
 export default Vue.extend({
   components: {
     PrependNavigationDrawer,
@@ -102,11 +104,22 @@ export default Vue.extend({
           to: '/account/lamp-manager/dbr',
           isCategory: false,
         },
+        {
+          icon: 'mdi-apps',
+          title: 'Links',
+          isCategory: true,
+        },
+        {
+          icon: 'mdi-link-variant',
+          title: 'My ereter.net',
+          to: '/account/links/ereter',
+          isCategory: false,
+        },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'IIDX DP Options Database / DPオプションデータベース',
+      title: 'IIDX DP Database / DPデータベース',
     }
   },
   computed: {

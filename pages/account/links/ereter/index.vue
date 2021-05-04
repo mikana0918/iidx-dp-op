@@ -1,7 +1,7 @@
 <template>
   <div>
     <whole-screen-loader :is-loading="loading"></whole-screen-loader>
-    <p>IIDX ID: {{ this.iidxId }}</p>
+    <p>IIDX ID: {{ iidxId }}</p>
     <a :href="ereterMyPageURL" target="_blank"
       >ereter.net(Click here if not opened)</a
     >
@@ -49,8 +49,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    iidxId(): string | undefined {
-      return this.$accessor.firestore.iidxId
+    iidxId(): string {
+      const iidxid = this.$accessor.firestore.iidxId
+      if (!iidxid) return ''
+      return iidxid
     },
     uid(): string | undefined {
       return this.$accessor.auth?.uid
