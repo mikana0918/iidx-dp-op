@@ -4,6 +4,8 @@ import { getAccessorType, actionTree } from 'typed-vuex'
 import * as level12 from '~/store/level12'
 import * as auth from '~/store/auth'
 import * as dbr from '~/store/dbr'
+import * as firestore from '~/store/firestore'
+import * as accountSettings from '~/store/accountSettings'
 
 // Keep your existing vanilla Vuex code for state, getters, mutations, actions, plugins, etc.
 export const state = () => ({})
@@ -25,5 +27,7 @@ export const accessorType = getAccessorType({
     level12,
     auth,
     dbr,
+    firestore,
+    accountSettings,
   },
 })
