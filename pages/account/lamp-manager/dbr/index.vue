@@ -43,6 +43,7 @@ import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 export default Vue.extend({
   components: { wholeScreenLoader },
+  middleware: ['authenticated'],
   data() {
     return {
       loading: false,
