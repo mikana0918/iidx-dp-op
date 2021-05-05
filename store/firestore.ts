@@ -11,8 +11,8 @@ export const state = () => ({
 })
 
 export const getters = getterTree(state, {
-  iidxId(state): string | undefined {
-    return state.iidx_data?.iidxId
+  iidxId(state): string {
+    return state.iidx_data?.iidxId ?? ''
   },
 })
 

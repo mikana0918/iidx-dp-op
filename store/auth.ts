@@ -18,8 +18,8 @@ export const getters = getterTree(state, {
   loggedIn(state): boolean {
     return !!state.authUserData?.uid
   },
-  uid(state): string | undefined {
-    return state.authUserData?.uid
+  uid(state): string {
+    return state.authUserData?.uid ?? ''
   },
 })
 
