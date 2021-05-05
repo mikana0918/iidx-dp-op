@@ -19,6 +19,8 @@
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.11.1",
     "firebase": "^8.4.3",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
     "nuxt": "^2.15.3",
     "nuxt-typed-vuex": "^0.2.0"
   },
@@ -41,5 +43,15 @@
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.4",
     "vue-jest": "^3.0.4"
+  },
+    "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
