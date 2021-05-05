@@ -44,14 +44,14 @@
     "ts-jest": "^26.5.4",
     "vue-jest": "^3.0.4"
   },
-    "husky": {
+  "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "npm run lint --fix"
     ]
   }
 }
