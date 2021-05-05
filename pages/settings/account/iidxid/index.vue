@@ -43,11 +43,14 @@ export default Vue.extend({
   },
   data() {
     return {
-      rules: [(value: any) => !!value || 'Required.'],
+      rules: [(value: string) => !!value || 'Required.'],
       iidxIdInput: '',
       loading: false, // loading on whole screen
       onSaveComponentLoading: false, // loading on component
     }
+  },
+  async fetch() {
+    this.iidxIdInput = await this.$accessor.firestore.iidxId
   },
   computed: {
     iidxId(): string {
@@ -55,6 +58,9 @@ export default Vue.extend({
     },
     uid(): string {
       return this.$accessor.auth.uid
+    },
+    withoutStringDash(): string {
+      return this.iidxIdInput.replace('-', '') // we don't store '-' of given IIDX ID.
     },
   },
   watch: {
@@ -73,7 +79,7 @@ export default Vue.extend({
       this.onSaveComponentLoading = true
       this.$accessor.firestore.setMyIIDXId({
         uid: this.uid,
-        iidxId: this.iidxIdInput,
+        iidxId: this.withoutStringDash,
       })
       this.onSaveComponentLoading = false
 

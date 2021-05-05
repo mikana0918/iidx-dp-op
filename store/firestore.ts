@@ -17,10 +17,10 @@ export const getters = getterTree(state, {
 })
 
 export const mutations = mutationTree(state, {
-  SET_MY_IIDX_DATA_SUCCESS(state, { data }) {
+  SET_MY_IIDX_DATA_SUCCESS(state, { iidxId }: { iidxId: string }) {
     state.iidx_data = {
       succeeded: true,
-      iidxId: data.iidx_id,
+      iidxId,
     }
   },
   SET_MY_IIDX_DATA_FAIL(state) {
@@ -34,18 +34,25 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    setMyIIDXId(this, {}, { uid, iidxId }: { uid: string; iidxId: string }) {
+    setMyIIDXId(
+      this,
+      { commit },
+      { uid, iidxId }: { uid: string; iidxId: string }
+    ) {
       firestore
         .collection('iidx_info')
         .doc(uid)
         .set({
           iidx_id: iidxId,
         })
-        .then((docRef) => {
-          console.log('Document written with ID: ', docRef)
+        .then(() => {
+          commit('SET_MY_IIDX_DATA_SUCCESS', {
+            iidxId,
+          })
         })
         .catch((error) => {
           console.error('Error adding document: ', error)
+          commit('SET_MY_IIDX_DATA_FAIL')
         })
     },
     findMyIIDXData(this, { commit }, { uid }: { uid: string }) {
@@ -56,7 +63,7 @@ export const actions = actionTree(
         .then((doc) => {
           if (doc.exists) {
             console.log('Document data:', doc.data())
-            commit('SET_MY_IIDX_DATA_SUCCESS', { data: doc.data() })
+            commit('SET_MY_IIDX_DATA_SUCCESS', { iidxId: doc.data()?.iidx_id })
           } else {
             // doc.data() will be undefined in this case
             console.log('No such document!')
