@@ -43,5 +43,15 @@
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.4",
     "vue-jest": "^3.0.4"
+  },
+    "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
