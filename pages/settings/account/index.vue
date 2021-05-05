@@ -5,7 +5,7 @@
         <template v-for="(item, index) in items">
           <nuxt-link :key="index" :to="item.to" style="text-decoration: none">
             <v-list-item :key="item.title">
-              <template #default="{ active }">
+              <template #default="{}">
                 <v-list-item-content>
                   <v-list-item-title v-text="item.title"></v-list-item-title>
 
