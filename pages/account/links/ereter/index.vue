@@ -44,7 +44,7 @@ export default Vue.extend({
     return {
       dialog: false,
       loading: false,
-      rules: [(value) => !!value || 'Required.'],
+      rules: [(value: string) => !!value || 'Required.'],
       iidxIdInput: '',
     }
   },
@@ -54,7 +54,7 @@ export default Vue.extend({
       if (!iidxid) return ''
       return iidxid
     },
-    uid(): string | undefined {
+    uid(): string {
       return this.$accessor.auth?.uid
     },
     ereterMyPageURL(): string {
