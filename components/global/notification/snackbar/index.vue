@@ -15,8 +15,13 @@ import Vue from 'vue'
 
 export default Vue.extend({
   computed: {
-    snackbar() {
-      return this.$accessor.snackbar?.isShown
+    snackbar: {
+      get(): boolean {
+        return this.$accessor.snackbar?.isShown
+      },
+      set() {
+        this.$accessor.snackbar.closeNotification() // close automatically
+      },
     },
     text(): string {
       return this.$accessor.snackbar?.text

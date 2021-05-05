@@ -1,28 +1,11 @@
 <template>
   <div>
     <whole-screen-loader :is-loading="loading"></whole-screen-loader>
-    <p>IIDX ID: {{ iidxId }}</p>
-    <a :href="ereterMyPageURL" target="_blank"
+    <p v-if="iidxId">IIDX ID: {{ iidxId }}</p>
+    <p v-else>You have no registered IIDX ID. Please go Settings.</p>
+    <a v-show="iidxId" :href="ereterMyPageURL" target="_blank"
       >ereter.net(Click here if not opened)</a
     >
-    <v-dialog v-model="dialog" max-width="70vw">
-      <v-card>
-        <v-card-title>Please register your IIDX ID</v-card-title>
-        <v-divider></v-divider>
-        <v-container fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-text-field v-model="iidxIdInput" :rules="rules"></v-text-field>
-          </v-row>
-        </v-container>
-      </v-card>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false">
-          Close
-        </v-btn>
-        <v-btn color="blue darken-1" text @click="saveIIDXId()"> Save </v-btn>
-      </v-card-actions>
-    </v-dialog>
   </div>
 </template>
 
@@ -42,7 +25,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      dialog: false,
       loading: false,
       rules: [(value: string) => !!value || 'Required.'],
       iidxIdInput: '',
@@ -50,9 +32,7 @@ export default Vue.extend({
   },
   computed: {
     iidxId(): string {
-      const iidxid = this.$accessor.firestore.iidxId
-      if (!iidxid) return ''
-      return iidxid
+      return this.$accessor.firestore.iidxId
     },
     uid(): string {
       return this.$accessor.auth?.uid
@@ -62,19 +42,28 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.iidxId) {
-      window.open(this.ereterMyPageURL, '_blank')
-    }
-    if (!this.$accessor.firestore.iidx_data?.succeeded) {
-      this.dialog = true
-    }
+    this.redirectToSite()
+    this.needToRegisterIidxId()
   },
   methods: {
-    saveIIDXId() {
-      this.$accessor.firestore.setMyIIDXId({
-        uid: this.uid,
-        iidxId: this.iidxIdInput,
-      })
+    redirectToSite() {
+      if (this.iidxId) {
+        window.open(this.ereterMyPageURL, '_blank')
+      }
+    },
+    needToRegisterIidxId() {
+      if (
+        !this.$accessor.firestore.iidx_data?.succeeded ||
+        !this.$accessor.firestore.iidxId
+      ) {
+        this.$accessor.snackbar.showWithNotification({
+          text: 'Please Register Your IIDX ID! (redirect in 3 sec)',
+        })
+
+        setTimeout(() => {
+          this.$router.push({ path: '/settings/account/iidxid' })
+        }, 3000)
+      }
     },
   },
 })
