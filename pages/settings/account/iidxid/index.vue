@@ -76,6 +76,8 @@ export default Vue.extend({
         iidxId: this.iidxIdInput,
       })
       this.onSaveComponentLoading = false
+
+      this.$accessor.snackbar.showWithNotification({ text: 'Save Success!' })
     },
   },
 })

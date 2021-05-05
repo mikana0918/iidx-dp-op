@@ -53,16 +53,19 @@
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ renderCopyright }}</span>
     </v-footer>
+
+    <global-snackbar></global-snackbar>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import PrependNavigationDrawer from '~/components/layouts/default/PrependNavigationDrawer.vue'
-
+import GlobalSnackbar from '~/components/global/notification/snackbar/index.vue'
 export default Vue.extend({
   components: {
     PrependNavigationDrawer,
+    GlobalSnackbar,
   },
   data() {
     return {

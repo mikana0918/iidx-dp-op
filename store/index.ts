@@ -5,6 +5,7 @@ import * as level12 from '~/store/level12'
 import * as auth from '~/store/auth'
 import * as dbr from '~/store/dbr'
 import * as firestore from '~/store/firestore'
+import * as snackbar from '~/store/snackbar'
 
 // Keep your existing vanilla Vuex code for state, getters, mutations, actions, plugins, etc.
 export const state = () => ({})
@@ -27,5 +28,6 @@ export const accessorType = getAccessorType({
     auth,
     dbr,
     firestore,
+    snackbar,
   },
 })
