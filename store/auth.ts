@@ -1,5 +1,5 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
-import firebase from '@/plugins/firebase'
+import firebase from '~/plugins/firebase/firebase'
 
 export const state = () => ({
   authUserData: undefined as
@@ -17,6 +17,9 @@ export const state = () => ({
 export const getters = getterTree(state, {
   loggedIn(state): boolean {
     return !!state.authUserData?.uid
+  },
+  uid(state): string {
+    return state.authUserData?.uid ?? ''
   },
 })
 

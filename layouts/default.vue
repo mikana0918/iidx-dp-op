@@ -35,12 +35,8 @@
           </template>
         </v-list-item>
       </v-list>
-
-      <template #append>
-        <append-navigation-drawer
-          :is-authenticated="isAuthenticated"
-        ></append-navigation-drawer>
-      </template>
+      <!-- you can append some container here -->
+      <!-- <template #append></template> -->
     </v-navigation-drawer>
 
     <v-app-bar :clipped-left="clipped" fixed app>
@@ -57,17 +53,19 @@
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ renderCopyright }}</span>
     </v-footer>
+
+    <global-snackbar></global-snackbar>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import AppendNavigationDrawer from '~/components/layouts/default/AppendNavigationDrawer.vue'
 import PrependNavigationDrawer from '~/components/layouts/default/PrependNavigationDrawer.vue'
+import GlobalSnackbar from '~/components/global/notification/snackbar/index.vue'
 export default Vue.extend({
   components: {
     PrependNavigationDrawer,
-    AppendNavigationDrawer,
+    GlobalSnackbar,
   },
   data() {
     return {
@@ -109,11 +107,22 @@ export default Vue.extend({
           to: '/account/lamp-manager/dbr',
           isCategory: false,
         },
+        {
+          icon: 'mdi-apps',
+          title: 'Links',
+          isCategory: true,
+        },
+        {
+          icon: 'mdi-link-variant',
+          title: 'My ereter.net',
+          to: '/account/links/ereter',
+          isCategory: false,
+        },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'IIDX DP Options Database / DPオプションデータベース',
+      title: 'IIDX DP Database / DPデータベース',
     }
   },
   computed: {

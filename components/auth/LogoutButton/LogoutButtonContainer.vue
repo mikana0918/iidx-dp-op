@@ -21,7 +21,9 @@ export default Vue.extend({
   },
   methods: {
     signOut() {
-      this.$accessor.auth.signOut()
+      if (window.confirm('Logout? (confirm)')) {
+        this.$accessor.auth.signOut()
+      }
     },
   },
 })
