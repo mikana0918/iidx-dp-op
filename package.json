@@ -16,7 +16,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
-    "core-js": "^3.11.2",
+    "core-js": "^3.12.0",
     "firebase": "^8.5.0",
     "nuxt": "^2.15.3",
     "nuxt-typed-vuex": "^0.2.0"
