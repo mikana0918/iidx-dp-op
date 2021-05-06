@@ -43,10 +43,9 @@ export default Vue.extend({
     selected: [],
     items: [
       {
-        // headline: 'IIDX ID',
-        subtitle: `皆伝対策DBRクリアランプマネジャー | Lamp manager for DP Kaiden practice.`,
-        title: '皆伝 | Kaiden 😤',
-        to: '/account/lamp-manager/dbr/tags/kaiden',
+        subtitle: `Practice selection by DJ Silent's blog.`,
+        title: "Silent's selection ✊ | 天空の夜明け(DPA) Practice ",
+        to: '/account/lamp-manager/dbr/tags/kaiden/by-silent/for-tenkuu',
       },
     ],
   }),
