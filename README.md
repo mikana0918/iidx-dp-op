@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/702250c0-9e85-429e-babb-a9d6aa8c0b66/deploy-status)](https://app.netlify.com/sites/nostalgic-kalam-88a50b/deploys)
+
 # iidx-dp-op
 
 ## Build Setup
