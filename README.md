@@ -34,4 +34,9 @@ $ npm run start
 $ npm run generate
 ```
 
+## Start Local Firebase stack
+```bash
+$ firebase emulators:start
+```
+
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
