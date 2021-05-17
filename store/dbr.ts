@@ -54,12 +54,7 @@ export const actions = actionTree(
           if (doc.exists) {
             commit('SET_DBR_LIST_DATA_SUCCESS', { data: doc.data()?.dbr_data })
           } else {
-            // doc.data() will be undefined in this case
             console.log('No such document! / dbr 皆伝:天空の夜明け ')
-            // set default if user have no data.
-            this.app.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({
-              uid,
-            })
           }
         })
         .catch((error) => {

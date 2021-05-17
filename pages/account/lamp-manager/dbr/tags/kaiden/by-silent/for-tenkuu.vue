@@ -32,8 +32,12 @@
         :loading="loading"
         loading-text="データの取得に失敗しました。Failed to fetch data."
       >
+        <!-- level -->
         <!-- eslint-disable-next-line vue/valid-v-slot -->
-        <template #item.level="{ item }"> ☆{{ item.level }} </template>
+        <template #item.level="{ item }">
+          <div>☆{{ item.level }}</div>
+        </template>
+        <!-- title -->
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template #item.title="{ item }">
           {{ item.title }}
@@ -41,12 +45,19 @@
             >({{ item.difficulty }})</span
           >
         </template>
+        <!-- action -->
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
+        <template #item.actions="{ item }">
+          <v-icon small class="mr-2" @click="editItem(item)">
+            mdi-pencil
+          </v-icon>
+        </template>
       </v-data-table>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 export default Vue.extend({
@@ -62,20 +73,59 @@ export default Vue.extend({
           align: 'start',
           sortable: true,
           value: 'level',
+          class: 'level',
+          cellClass: 'level-cell',
         },
-        { text: 'Title', value: 'title' },
-        { text: 'B+P', value: 'B+P' },
-        { text: 'Clear lamp', value: 'clearLamp' },
-        { text: 'Result', value: 'result' },
+        {
+          text: 'Title',
+          value: 'title',
+          sortable: true,
+          cellClass: 'title-cell',
+        },
+        {
+          text: 'ClearLamp',
+          align: 'start',
+          sortable: true,
+          value: 'clearRamp',
+          class: 'clearlamp',
+          cellClass: 'clearlamp-cell',
+        },
+        {
+          text: 'B+P',
+          value: 'B+P',
+          sortable: true,
+          class: 'bp',
+          cellClass: 'bp-cell',
+        },
+        {
+          text: 'Result',
+          value: 'result',
+          sortable: true,
+          class: 'result',
+          cellClass: 'result-cell',
+        },
+        {
+          text: 'Action',
+          value: 'actions',
+          sortabel: false,
+          class: 'actions',
+          cellClass: 'actions-cell',
+        },
       ],
     }
   },
   async fetch() {
-    await this.$accessor.dbr.getDBRListForKaiden()
+    const uid: string = this.$accessor.auth.uid
+    await this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+
+    if (!this.$accessor.dbr.dbrListForKaiden?.dbrList) {
+      await this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid })
+    }
   },
   computed: {
     dbrList() {
       const d = this.$accessor.dbr.dbrListForKaiden
+
       return d?.dbrList
     },
   },
