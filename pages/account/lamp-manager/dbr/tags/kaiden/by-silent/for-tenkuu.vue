@@ -23,7 +23,7 @@
     <div class="table-data">
       <v-data-table
         :headers="headers"
-        :items="dbrList"
+        :items="dbrItems"
         :items-per-page="30"
         class="elevation-1"
         :search="search"
@@ -33,22 +33,19 @@
         loading-text="データの取得に失敗しました。Failed to fetch data."
       >
         <!-- level -->
-        <!-- eslint-disable-next-line vue/valid-v-slot -->
-        <template #item.level="{ item }">
+        <template #[`item.level`]="{ item }">
           <div>☆{{ item.level }}</div>
         </template>
         <!-- title -->
-        <!-- eslint-disable-next-line vue/valid-v-slot -->
-        <template #item.title="{ item }">
+        <template #[`item.title`]="{ item }">
           {{ item.title }}
           <span :class="item.difficulty.toLowerCase()"
             >({{ item.difficulty }})</span
           >
         </template>
         <!-- action -->
-        <!-- eslint-disable-next-line vue/valid-v-slot -->
-        <template #item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">
+        <template #[`item.actions`]="{ item }">
+          <v-icon small class="mr-2" @click="editItem({ item })">
             mdi-pencil
           </v-icon>
         </template>
@@ -60,6 +57,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
+import { DBRItem } from '~/datatypes/domains/clear/details'
+
 export default Vue.extend({
   components: { wholeScreenLoader },
   middleware: ['authenticated'],
@@ -114,19 +113,19 @@ export default Vue.extend({
       ],
     }
   },
-  async fetch() {
+  fetch() {
     const uid: string = this.$accessor.auth.uid
-    await this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+    this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
 
-    if (!this.$accessor.dbr.dbrListForKaiden?.dbrList) {
-      await this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid })
+    if (!this.$accessor.dbr.dbrListForKaiden?.dbrItems) {
+      this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid })
     }
   },
   computed: {
-    dbrList() {
+    dbrItems() {
       const d = this.$accessor.dbr.dbrListForKaiden
 
-      return d?.dbrList
+      return d?.dbrItems
     },
   },
   created() {
@@ -134,6 +133,12 @@ export default Vue.extend({
   },
   mounted() {
     this.loading = false
+  },
+  methods: {
+    editItem({ item }: { item: DBRItem }) {
+      // eslint-disable-next-line no-console
+      console.log('clicked: ', item)
+    },
   },
 })
 </script>

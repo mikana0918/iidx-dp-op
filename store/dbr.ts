@@ -1,11 +1,12 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
 import { firestore } from '~/plugins/firebase/firestore'
+import { DBRItem } from '~/datatypes/domains/clear/details'
 
 export const state = () => ({
   dbrListForKaiden: undefined as
     | {
         succeeded: boolean
-        dbrList: any
+        dbrItems: Array<DBRItem>
       }
     | undefined,
   initialDataForKaidenTenkuu: undefined as { succeeded: boolean } | undefined,
@@ -14,16 +15,16 @@ export const state = () => ({
 export const getters = getterTree(state, {})
 
 export const mutations = mutationTree(state, {
-  SET_DBR_LIST_DATA_SUCCESS(state, { data }: { data: any }) {
+  SET_DBR_LIST_DATA_SUCCESS(state, { data }: { data: Array<DBRItem> }) {
     state.dbrListForKaiden = {
       succeeded: true,
-      dbrList: data,
+      dbrItems: data,
     }
   },
   SET_DBR_LIST_DATA_FAIL(state) {
     state.dbrListForKaiden = {
       succeeded: false,
-      dbrList: [],
+      dbrItems: [],
     }
   },
   SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_SUCCESS(state) {
@@ -54,11 +55,13 @@ export const actions = actionTree(
           if (doc.exists) {
             commit('SET_DBR_LIST_DATA_SUCCESS', { data: doc.data()?.dbr_data })
           } else {
+            // eslint-disable-next-line no-console
             console.log('No such document! / dbr 皆伝:天空の夜明け ')
           }
         })
         .catch((error) => {
-          console.log('Error getting document:', error)
+          // eslint-disable-next-line no-console
+          console.error('Error getting document:', error)
           commit('SET_DBR_LIST_DATA_FAIL')
         })
     },
@@ -81,6 +84,7 @@ export const actions = actionTree(
           commit('SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_SUCCESS')
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.error('Error adding document: ', error)
           commit('SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_FAIL')
         })

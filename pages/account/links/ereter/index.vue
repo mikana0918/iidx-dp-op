@@ -19,9 +19,9 @@ export default Vue.extend({
     wholeScreenLoader,
   },
   middleware: ['authenticated'],
-  async asyncData({ app }: Context) {
-    const uid = await app.$accessor.auth?.uid
-    await app.$accessor.firestore.findMyIIDXData({ uid })
+  asyncData({ app }: Context) {
+    const uid = app.$accessor.auth?.uid
+    app.$accessor.firestore.findMyIIDXData({ uid })
   },
   data() {
     return {
