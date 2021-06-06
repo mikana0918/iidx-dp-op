@@ -18,7 +18,7 @@ export default Vue.extend({
   components: {
     wholeScreenLoader,
   },
-  middleware: ['authenticated'],
+  middleware: ['auth/beforeAuth'],
   asyncData({ app }: Context) {
     const uid = app.$accessor.auth?.uid
     app.$accessor.firestore.findMyIIDXData({ uid })
