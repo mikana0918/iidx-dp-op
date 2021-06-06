@@ -1,6 +1,8 @@
 <template>
   <div>
-    <whole-screen-loader :is-loading="loading"></whole-screen-loader>
+    <whole-screen-loader
+      :is-loading="isWholeScreenLoading"
+    ></whole-screen-loader>
     <v-card elevation="2">
       <v-card-subtitle
         >What is this list? see:
@@ -59,10 +61,16 @@ import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 import { DBRItem } from '~/datatypes/domains/clear/details'
 
+interface DataTypes {
+  isWholeScreenLoading: boolean
+  search: string
+  headers: Array // [TODO] It'd be better add specific type for this?
+}
+
 export default Vue.extend({
   components: { wholeScreenLoader },
-  middleware: ['authenticated'],
-  data() {
+  middleware: ['auth/beforeAuth'],
+  data(): DataTypes {
     return {
       loading: false,
       search: '',
@@ -115,6 +123,7 @@ export default Vue.extend({
   },
   fetch() {
     const uid: string = this.$accessor.auth.uid
+
     this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
 
     if (!this.$accessor.dbr.dbrListForKaiden?.dbrItems) {
@@ -122,17 +131,17 @@ export default Vue.extend({
     }
   },
   computed: {
-    dbrItems() {
+    dbrItems(): DBRItem[] {
       const d = this.$accessor.dbr.dbrListForKaiden
 
       return d?.dbrItems
     },
   },
   created() {
-    this.loading = true
+    this.isWholeScreenLoading = true
   },
   mounted() {
-    this.loading = false
+    this.isWholeScreenLoading = false
   },
   methods: {
     editItem({ item }: { item: DBRItem }) {
