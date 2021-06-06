@@ -6,10 +6,12 @@
     <v-card elevation="2">
       <v-card-subtitle
         >What is this list? see:
-        <nuxt-link to="http://0720silent.blog.fc2.com/blog-entry-9.html"
-          >Silent's blog</nuxt-link
-        ></v-card-subtitle
-      >
+        <ExternalLink
+          href="http://0720silent.blog.fc2.com/blog-entry-9.html"
+          target="_blank"
+          >Silent`s blog</ExternalLink
+        >
+      </v-card-subtitle>
     </v-card>
     <div class="container table-search">
       <v-card-title>
@@ -60,6 +62,7 @@
 import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 import { DBRItem } from '~/datatypes/domains/clear/details'
+import ExternalLink from '~/components/base/link/ExternalLink.vue'
 
 interface DataTypes {
   isWholeScreenLoading: boolean
@@ -68,7 +71,7 @@ interface DataTypes {
 }
 
 export default Vue.extend({
-  components: { wholeScreenLoader },
+  components: { wholeScreenLoader, ExternalLink },
   middleware: ['auth/beforeAuth'],
   data(): DataTypes {
     return {
