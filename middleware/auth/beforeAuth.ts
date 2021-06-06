@@ -1,7 +1,7 @@
 import { Context } from '@nuxt/types'
 
 /**
- * This middleware hooks before the user client is not authenticated.
+ * This middleware hooks BEFORE the user client is not authenticated.
  */
 export default ({ app, redirect }: Context) => {
   if (!app.$accessor.auth.loggedIn) {
