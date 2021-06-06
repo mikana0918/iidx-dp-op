@@ -143,6 +143,6 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .v-navigation-drawer {
-  z-index: $default-navigation-drawer-v;
+  z-index: $default-navigation-drawer-z;
 }
 </style>
