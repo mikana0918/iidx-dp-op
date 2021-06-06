@@ -2,14 +2,17 @@ import { getterTree, mutationTree, actionTree } from 'typed-vuex'
 import { firestore } from '~/plugins/firebase/firestore'
 import { DBRItem } from '~/datatypes/domains/clear/details'
 
+interface DbrListForKaiden {
+  succeeded: boolean
+  dbrItems: Array<DBRItem>
+}
+interface InitialDataForKaidenTenkuu {
+  succeeded: boolean
+}
+
 export const state = () => ({
-  dbrListForKaiden: undefined as
-    | {
-        succeeded: boolean
-        dbrItems: Array<DBRItem>
-      }
-    | undefined,
-  initialDataForKaidenTenkuu: undefined as { succeeded: boolean } | undefined,
+  dbrListForKaiden: {} as DbrListForKaiden,
+  initialDataForKaidenTenkuu: {} as InitialDataForKaidenTenkuu,
 })
 
 export const getters = getterTree(state, {})
@@ -43,8 +46,12 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     /**
-     * 皆伝 - 天空の夜明け DBR Practice List
+     * 天空の夜明け(Tenkuu No Yoake) DBR Practice List
      * Get stored data.
+     *
+     * @param {Store} this
+     * @param {Commit} commit
+     * @param {uid} uid
      */
     getMyDBRListForKaidenForTenkuu(this, { commit }, { uid }: { uid: string }) {
       firestore
@@ -66,8 +73,12 @@ export const actions = actionTree(
         })
     },
     /**
-     * 皆伝 - 天空の夜明け DBR Practice List
+     * 天空の夜明け(Tenkuu No Yoake) DBR Practice List
      * Store default list.
+     *
+     * @param {Store} this
+     * @param { Commit } commit
+     * @param { uid } uid
      */
     setDefaultMyDBRListForKaidenForTenkuu(
       this,
