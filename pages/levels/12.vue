@@ -98,7 +98,7 @@ export default Vue.extend({
   position: fixed;
   width: 84vw;
   padding: unset;
-  z-index: 999999;
+  z-index: $table-search-input-z;
 }
 
 .table-data {

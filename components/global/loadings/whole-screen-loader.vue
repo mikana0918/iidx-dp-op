@@ -25,7 +25,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .loader {
   position: fixed;
-  z-index: 2000000;
+  z-index: $whole-screen-loader-z;
 }
 .v-progress-circular {
   top: 50vh;
@@ -36,6 +36,6 @@ export default Vue.extend({
   width: 100vw;
   height: 100vh;
   background-color: #121212;
-  z-index: 1000000;
+  z-index: $whole-screen-loader-base-z;
 }
 </style>

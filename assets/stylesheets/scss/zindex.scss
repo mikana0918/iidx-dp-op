@@ -1,0 +1,14 @@
+// This file manages the all z-index value of this project.
+// By doing this, all z-index configures are gathered in one place,
+// which enables developers to avoid hussling with z-index layers.
+
+// 100~
+// 1,000~
+// 10,000~
+// 100,000~
+$table-search-input-z: 999999;
+// 1,000,000~
+$whole-screen-loader-base-z: 1000000;
+$whole-screen-loader-z: 2000000;
+
+$default-navigation-drawer-v: 1000000;

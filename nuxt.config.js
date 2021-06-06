@@ -62,6 +62,8 @@ export default {
         filename: envPath,
       },
     ],
+    // https://www.npmjs.com/package/@nuxtjs/style-resources
+    '@nuxtjs/style-resources',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -87,7 +89,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/assets/stylesheets/scss/vuetify/variables.scss'],
     theme: {
       dark: true,
       themes: {
@@ -108,4 +110,15 @@ export default {
   build: {},
 
   proxy: {},
+
+  // @nuxtjs/style-resources
+  // https://www.npmjs.com/package/@nuxtjs/style-resources
+  styleResources: {
+    // your settings here
+    sass: [],
+    scss: ['~/assets/stylesheets/scss/*.scss'],
+    less: [],
+    stylus: [],
+    hoistUseStatements: true, // Hoists the "@use" imports. Applies only to "sass", "scss" and "less". Default: false.
+  },
 }
