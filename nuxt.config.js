@@ -34,8 +34,9 @@ export default {
   },
 
   env: {
-    iidx12Data, // [todo] delete once list config json has been rremoved
-    dbrListForKaiden, // [todo] delete once list config json has been rremoved
+    dev: process.env.ENV,
+    iidx12Data, // [todo] delete once list config json has been removed
+    dbrListForKaiden, // [todo] delete once list config json has been removed
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
