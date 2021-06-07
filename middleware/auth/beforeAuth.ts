@@ -5,13 +5,10 @@ import { Context } from '@nuxt/types'
  */
 export default ({ app, redirect }: Context) => {
   if (!app.$accessor.auth.loggedIn) {
-    // eslint-disable-next-line no-console
-    console.warn('before-auth: Fail! not authorized')
-    // eslint-disable-next-line no-console
-    console.log('redirect to signin')
+    app.$logger.warn('😇😇😇 before-auth: Fail! not authorized')
+    app.$logger.info('😅😅😅 redirect to signin')
     redirect('/auth/signin')
   } else {
-    // eslint-disable-next-line no-console
-    console.log('authenticated: Success! authorized')
+    app.$logger.success('🎉🎉🎉 authenticated: Success! authorized')
   }
 }

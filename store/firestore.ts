@@ -51,7 +51,7 @@ export const actions = actionTree(
           })
         })
         .catch((error) => {
-          console.error('Error adding document: ', error)
+          this.$logger.error(`Error adding document: ${error}`)
           commit('SET_MY_IIDX_DATA_FAIL')
         })
     },
@@ -62,16 +62,16 @@ export const actions = actionTree(
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log('Document data:', doc.data())
+            this.$logger.log(`Document data: ${doc.data()}`)
             commit('SET_MY_IIDX_DATA_SUCCESS', { iidxId: doc.data()?.iidx_id })
           } else {
             // doc.data() will be undefined in this case
-            console.log('No such document!')
+            this.$logger.log(`No such document!`)
             commit('SET_MY_IIDX_DATA_FAIL')
           }
         })
         .catch((error) => {
-          console.log('Error getting document:', error)
+          this.$logger.error(`Error getting document: ${error}`)
         })
     },
   }
