@@ -18,7 +18,7 @@ import Vue, { PropType } from 'vue'
 export default Vue.extend({
   props: {
     input: {
-      type: String,
+      type: String || Number,
       default: '',
     },
     label: {
@@ -40,11 +40,11 @@ export default Vue.extend({
   },
   computed: {
     mutateInput: {
-      get(): string {
+      get(): string | number {
         return this.input
       },
-      set(v: string) {
-        this.$emit('mutate-input', v)
+      set(v: string | number) {
+        this.$emit('input', { input: v })
       },
     },
   },

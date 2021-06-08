@@ -10,6 +10,8 @@ interface InitialDataForKaidenTenkuu {
   succeeded: boolean
 }
 
+const collection = 'dbr_list_for_kaiden_for_tenkuu'
+
 export const state = () => ({
   dbrListForKaiden: {} as DbrListForKaiden,
   initialDataForKaidenTenkuu: {} as InitialDataForKaidenTenkuu,
@@ -40,6 +42,16 @@ export const mutations = mutationTree(state, {
       succeeded: false,
     }
   },
+  UPDATE_MY_DBR_DATA_FOR_KAIDEN_TENKUU_SUCCESS(state) {
+    state.initialDataForKaidenTenkuu = {
+      succeeded: true,
+    }
+  },
+  UPDATE_MY_DBR_DATA_FOR_KAIDEN_TENKUU_FAIL(state) {
+    state.initialDataForKaidenTenkuu = {
+      succeeded: false,
+    }
+  },
 })
 
 export const actions = actionTree(
@@ -55,20 +67,18 @@ export const actions = actionTree(
      */
     getMyDBRListForKaidenForTenkuu(this, { commit }, { uid }: { uid: string }) {
       firestore
-        .collection('dbr_list_for_kaiden_for_tenkuu')
+        .collection(collection)
         .doc(uid)
         .get()
         .then((doc) => {
           if (doc.exists) {
             commit('SET_DBR_LIST_DATA_SUCCESS', { data: doc.data()?.dbr_data })
           } else {
-            // eslint-disable-next-line no-console
-            console.log('No such document! / dbr 皆伝:天空の夜明け ')
+            this.$logger.warn('No such document! / dbr 皆伝:天空の夜明け')
           }
         })
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error('Error getting document:', error)
+          this.$logger.error('Error getting document:', error)
           commit('SET_DBR_LIST_DATA_FAIL')
         })
     },
@@ -86,7 +96,7 @@ export const actions = actionTree(
       { uid }: { uid: string }
     ) {
       firestore
-        .collection('dbr_list_for_kaiden_for_tenkuu')
+        .collection(collection)
         .doc(uid)
         .set({
           dbr_data: process.env.dbrListForKaiden,
@@ -95,9 +105,27 @@ export const actions = actionTree(
           commit('SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_SUCCESS')
         })
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error('Error adding document: ', error)
+          this.$logger.error('Error adding document: ', error)
           commit('SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_FAIL')
+        })
+    },
+    updateMyDBRListFOrKaidenForTenkuu(
+      this,
+      { commit },
+      { uid, dbrData }: { uid: string; dbrData: DBRItem[] }
+    ) {
+      firestore
+        .collection(collection)
+        .doc(uid)
+        .set({
+          dbr_data: dbrData,
+        })
+        .then(() => {
+          commit('UPDATE_MY_DBR_DATA_FOR_KAIDEN_TENKUU_SUCCESS')
+        })
+        .catch((error) => {
+          this.$logger.error('Error adding document: ', error)
+          commit('UPDATE_MY_DBR_DATA_FOR_KAIDEN_TENKUU_FAIL')
         })
     },
   }

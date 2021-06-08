@@ -15,6 +15,15 @@ export type ClearRamp =
   | 'EXH-CLEAR'
   | 'F-COMBO'
 
+export const clearRamps: Array<ClearRamp> = [
+  'NO PLAY',
+  'A-CLEAR',
+  'E-CLEAR',
+  'CLEAR',
+  'H-CLEAR',
+  'EXH-CLEAR',
+  'F-COMBO',
+]
 /**
  * IIDX score rank (same characters as shown on iidx clear result)
  * from F to AAA.

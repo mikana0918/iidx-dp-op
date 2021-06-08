@@ -33,7 +33,7 @@
         :search="search"
         mobile-breakpoint="0"
         :fixed-header="true"
-        :loading="loading"
+        :loading="isWholeScreenLoading"
         loading-text="データの取得に失敗しました。Failed to fetch data."
       >
         <!-- level -->
@@ -47,6 +47,10 @@
             >({{ item.difficulty }})</span
           >
         </template>
+        <!-- bp -->
+        <template #[`item.bp`]="{ item }">
+          {{ item.bp }}
+        </template>
         <!-- action -->
         <template #[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem({ item })">
@@ -55,6 +59,12 @@
         </template>
       </v-data-table>
     </div>
+    <FullScreenDialogContainer
+      :dialog="dialog"
+      :dialog-item="dialogItem"
+      @save="save"
+      @toggle-dialog="toggleDialog"
+    ></FullScreenDialogContainer>
   </div>
 </template>
 
@@ -63,19 +73,33 @@ import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 import { DBRItem } from '~/datatypes/domains/clear/details'
 import ExternalLink from '~/components/base/link/ExternalLink.vue'
+import FullScreenDialogContainer from '~/components/global/dialogs/Container/dbr/FullScreenDialogContainer.vue'
+import { defaultState } from '~/datatypes/factory/dbr'
+import { updateByTitle } from '~/utils/dbr/index'
+
+interface DataTableTypes {
+  text: string
+  sortable: boolean
+  align?: string
+  value: string
+  class?: string
+  cellClass?: string
+}
 
 interface DataTypes {
   isWholeScreenLoading: boolean
   search: string
-  headers: Array // [TODO] It'd be better add specific type for this?
+  headers: Array<DataTableTypes>
+  dialog: boolean
+  dialogItem: DBRItem
 }
 
 export default Vue.extend({
-  components: { wholeScreenLoader, ExternalLink },
+  components: { wholeScreenLoader, ExternalLink, FullScreenDialogContainer },
   middleware: ['auth/beforeAuth'],
   data(): DataTypes {
     return {
-      loading: false,
+      isWholeScreenLoading: false,
       search: '',
       headers: [
         {
@@ -102,7 +126,7 @@ export default Vue.extend({
         },
         {
           text: 'B+P',
-          value: 'B+P',
+          value: 'bp',
           sortable: true,
           class: 'bp',
           cellClass: 'bp-cell',
@@ -117,11 +141,13 @@ export default Vue.extend({
         {
           text: 'Action',
           value: 'actions',
-          sortabel: false,
+          sortable: false,
           class: 'actions',
           cellClass: 'actions-cell',
         },
       ],
+      dialog: false,
+      dialogItem: defaultState,
     }
   },
   fetch() {
@@ -135,9 +161,9 @@ export default Vue.extend({
   },
   computed: {
     dbrItems(): DBRItem[] {
-      const d = this.$accessor.dbr.dbrListForKaiden
+      const { succeeded, dbrItems } = this.$accessor.dbr.dbrListForKaiden
 
-      return d?.dbrItems
+      return succeeded ? dbrItems : []
     },
   },
   created() {
@@ -148,8 +174,20 @@ export default Vue.extend({
   },
   methods: {
     editItem({ item }: { item: DBRItem }) {
-      // eslint-disable-next-line no-console
-      console.log('clicked: ', item)
+      this.$logger.info(`clicked: pages:`, item)
+
+      this.dialog = true
+      this.dialogItem = item
+    },
+    toggleDialog({ dialog }: { dialog: boolean }) {
+      this.dialog = dialog
+    },
+    save({ input }: { input: DBRItem }) {
+      this.$logger.info('save(PARENT: page): ', input)
+      const dbrData = updateByTitle({ list: this.dbrItems, item: input })
+      const uid = this.$accessor.auth?.uid
+      this.$accessor.dbr.updateMyDBRListFOrKaidenForTenkuu({ uid, dbrData })
+      this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
     },
   },
 })
@@ -159,11 +197,12 @@ export default Vue.extend({
 .v-card__title {
   padding: unset !important;
 }
+
 .table-search {
   position: fixed;
   width: 84vw;
   padding: unset;
-  z-index: 999999;
+  z-index: $table-search-input-z;
 }
 
 .table-data {
