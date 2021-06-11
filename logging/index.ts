@@ -1,3 +1,3 @@
-import { loggingStrategy } from '~/logging/strategy'
+import { loggingStrategy } from '~/logging/loggers/strategy'
 
 export const logger = loggingStrategy()
