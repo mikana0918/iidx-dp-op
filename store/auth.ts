@@ -1,5 +1,7 @@
 import { getterTree, mutationTree, actionTree } from 'typed-vuex'
 import firebase from '~/plugins/firebase/firebase'
+import { arrayIncludesArray } from '~/utils/array/index'
+import { adminConfig } from '~/config/admin/index'
 
 export const state = () => ({
   authUserData: undefined as
@@ -20,6 +22,11 @@ export const getters = getterTree(state, {
   },
   uid(state): string {
     return state.authUserData?.uid ?? ''
+  },
+  isAdmin(state): boolean {
+    const uid = state.authUserData?.uid
+
+    return arrayIncludesArray({ x: [uid], y: adminConfig.uids })
   },
 })
 
