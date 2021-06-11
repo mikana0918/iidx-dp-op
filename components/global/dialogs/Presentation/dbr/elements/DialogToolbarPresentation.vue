@@ -20,11 +20,11 @@ import Vue from 'vue'
 export default Vue.extend({
   methods: {
     toggleDialog() {
-      this.$emit('toggle-dialog')
+      this.$emit('close-dialog')
     },
     save() {
-      this.$logger.info(`clicked: save`)
       this.$emit('save')
+      this.$emit('close-dialog')
     },
   },
 })

@@ -27,7 +27,7 @@
     <div class="table-data">
       <v-data-table
         :headers="headers"
-        :items="dbrItems"
+        :items="dbrMaster"
         :items-per-page="30"
         class="elevation-1"
         :search="search"
@@ -61,9 +61,10 @@
     </div>
     <FullScreenDialogContainer
       :dialog="dialog"
-      :dialog-item="dialogItem"
+      :dialog-item-master="dbrMaster"
+      :dialog-item-input="myDbrList"
       @save="save"
-      @toggle-dialog="toggleDialog"
+      @close-dialog="closeDialog"
     ></FullScreenDialogContainer>
   </div>
 </template>
@@ -71,11 +72,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
-import { DBRItem } from '~/datatypes/domains/clear/details'
+import {
+  WriteModel as DBRWriteModel,
+  ReadModel as DBRReadModel,
+} from '~/datatypes/domains/clear/details'
 import ExternalLink from '~/components/base/link/ExternalLink.vue'
 import FullScreenDialogContainer from '~/components/global/dialogs/Container/dbr/FullScreenDialogContainer.vue'
-import { defaultState } from '~/datatypes/factory/dbr'
-import { updateByTitle } from '~/utils/dbr/index'
+import { defaultStateForCommand } from '~/datatypes/factory/dbr'
+// import { updateByTitle } from '~/utils/dbr/index'
 
 interface DataTableTypes {
   text: string
@@ -89,9 +93,9 @@ interface DataTableTypes {
 interface DataTypes {
   isWholeScreenLoading: boolean
   search: string
-  headers: Array<DataTableTypes>
+  readonly headers: Array<DataTableTypes>
   dialog: boolean
-  dialogItem: DBRItem
+  readonly defaultDialogInput: DBRWriteModel
 }
 
 export default Vue.extend({
@@ -147,25 +151,35 @@ export default Vue.extend({
         },
       ],
       dialog: false,
-      dialogItem: defaultState,
+      defaultDialogInput: defaultStateForCommand,
     }
   },
   fetch() {
     const uid: string = this.$accessor.auth.uid
-
+    this.$accessor.dbr.readMasterDataForKaidenForTenkuu()
     this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
-
-    if (!this.$accessor.dbr.dbrListForKaiden?.dbrItems) {
-      this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid })
-    }
+    // const uid: string = this.$accessor.auth.uid
+    // this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+    // if (
+    //   !this.$accessor.dbr.dbrListForKaiden?.dbrMaster && // not undefined
+    //   !this.$accessor.dbr.dbrListForKaiden?.dbrMaster?.length // not empty array
+    // ) {
+    //   this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid }) // migrate firestore schema
+    // }
   },
   computed: {
-    dbrItems(): DBRItem[] {
+    dbrMaster(): DBRReadModel[] {
+      const { succeeded, dbrMaster } = this.$accessor.dbr.dbrListMasterForKaiden
+
+      return succeeded ? dbrMaster : []
+    },
+    myDbrList(): DBRWriteModel[] {
       const { succeeded, dbrItems } = this.$accessor.dbr.dbrListForKaiden
 
       return succeeded ? dbrItems : []
     },
   },
+  watch: {},
   created() {
     this.isWholeScreenLoading = true
   },
@@ -173,21 +187,24 @@ export default Vue.extend({
     this.isWholeScreenLoading = false
   },
   methods: {
-    editItem({ item }: { item: DBRItem }) {
+    editItem({ item }: { item: DBRReadModel }) {
       this.$logger.info(`clicked: pages:`, item)
 
       this.dialog = true
-      this.dialogItem = item
     },
-    toggleDialog({ dialog }: { dialog: boolean }) {
-      this.dialog = dialog
+    closeDialog() {
+      this.dialog = false
     },
-    save({ input }: { input: DBRItem }) {
+    save({ input }: { input: DBRWriteModel }) {
       this.$logger.info('save(PARENT: page): ', input)
-      const dbrData = updateByTitle({ list: this.dbrItems, item: input })
-      const uid = this.$accessor.auth?.uid
-      this.$accessor.dbr.updateMyDBRListFOrKaidenForTenkuu({ uid, dbrData })
-      this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+
+      // const dbrData = updateByTitle({ list: this.dbrMaster, item: input })
+      // const uid = this.$accessor.auth?.uid
+
+      // this.$accessor.dbr.updateMyDBRListForKaidenForTenkuu({ uid, dbrData })
+      // this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+
+      this.closeDialog()
     },
   },
 })

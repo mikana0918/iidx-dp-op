@@ -6,7 +6,7 @@
     transition="dialog-bottom-transition"
     class="full-screen-dialog"
   >
-    <DialogToolbarPresentation @toggle-dialog="toggleDialog" @save="save"
+    <DialogToolbarPresentation @close-dialog="closeDialog" @save="save"
       ><template #[`title`]>{{
         dialogTitle
       }}</template></DialogToolbarPresentation
@@ -20,7 +20,10 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { DBRItem } from '~/datatypes/domains/clear/details'
+import {
+  ReadModel as DBRReadModel,
+  WriteModel as DBRWriteModel,
+} from '~/datatypes/domains/clear/details'
 import DialogToolbarPresentation from '~/components/global/dialogs/Presentation/dbr/elements/DialogToolbarPresentation.vue'
 
 export default Vue.extend({
@@ -32,8 +35,12 @@ export default Vue.extend({
       type: Boolean,
       required: true,
     },
-    dialogItem: {
-      type: Object as PropType<DBRItem>,
+    dialogItemMaster: {
+      type: Array as PropType<DBRReadModel[]>,
+      required: true,
+    },
+    dialogItemInput: {
+      type: Array as PropType<DBRReadModel[]>,
       required: true,
     },
   },
@@ -47,17 +54,15 @@ export default Vue.extend({
       },
     },
     dialogTitle(): string {
-      return `☆${this.dialogItem.level} ${this.dialogItem.title} (${this.dialogItem.difficulty})`
+      return `☆${this.dialogItemMaster.level} ${this.dialogItemMaster.title} (${this.dialogItemMaster.difficulty})`
     },
   },
   methods: {
-    toggleDialog() {
-      const dialog = { dialog: false }
-
-      this.$emit('toggle-dialog', dialog)
+    closeDialog() {
+      this.$emit('close-dialog')
     },
-    handleInput({ input }: { input: DBRItem }) {
-      this.$logger.info('handleInput(P Parent): ', input)
+    handleInput({ input }: { input: DBRWriteModel }) {
+      this.$emit('handle-input', { input })
     },
     save() {
       this.$emit('save')

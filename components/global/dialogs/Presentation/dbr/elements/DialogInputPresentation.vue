@@ -6,9 +6,9 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>ClearRamp</v-list-item-title>
-          <v-radio-group v-model="radioGroup">
+          <v-radio-group v-model="input.clearRamp" @change="syncClearRamp">
             <v-radio
-              v-for="(c, i) in clearRamps"
+              v-for="(c, i) in clearRampsMaster"
               :key="i"
               :label="c"
               :value="c"
@@ -62,53 +62,53 @@ import Vue, { PropType } from 'vue'
 import TextField from '~/components/base/input/text/TextField.vue'
 import Divider from '~/components/base/divider/Divider.vue'
 import { clearRamps, ClearRamp } from '~/datatypes/domains/result/types'
-import { DBRItem } from '~/datatypes/domains/clear/details'
+import { WriteModel, ReadModel } from '~/datatypes/domains/clear/details'
+// import { cloneDeep } from '~/utils/object/cloneDeep'
 
 interface DataType {
-  radioGroup: ClearRamp
-  input: DBRItem
+  input: WriteModel
 }
 
 export default Vue.extend({
   components: { TextField, Divider },
   props: {
-    dialogItem: {
-      type: Object as PropType<DBRItem>,
+    dialogItemMaster: {
+      type: Array as PropType<ReadModel[]>,
+      required: true,
+    },
+    dialogItemInput: {
+      type: Array as PropType<WriteModel[]>,
       required: true,
     },
   },
   data(): DataType {
     return {
-      radioGroup: 'NO PLAY',
-      input: { ...this.dialogItem } as DBRItem,
+      input: { clearRamp: 'NO PLAY' } as WriteModel,
     }
   },
   computed: {
-    clearRamps(): Array<ClearRamp> {
+    clearRampsMaster(): ClearRamp[] {
       return clearRamps
     },
   },
   watch: {
-    dialogItem(newVal: DBRItem): void {
-      this.input = newVal
-    },
-    radioGroup(newVal: ClearRamp): void {
-      this.$logger.info(`sync clearRamp: ${newVal}`)
-      this.input.clearRamp = newVal
-
-      this.$emit('input', { input: this.input })
-    },
+    // dialogItem(newVal: ReadModel): void {
+    //   this.input = cloneDeep({ obj: newVal })
+    // },
   },
   methods: {
     syncScore({ input }: { input: string }) {
-      this.$logger.info(`syncInput: ${input}`)
       this.input.score = input
 
       this.$emit('input', { input: this.input })
     },
     syncBp({ input }: { input: string }) {
-      this.$logger.info(`syncBp: ${input}`)
       this.input.bp = input
+
+      this.$emit('input', { input: this.input })
+    },
+    syncClearRamp(input: ClearRamp) {
+      this.input.clearRamp = input
 
       this.$emit('input', { input: this.input })
     },

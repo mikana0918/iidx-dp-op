@@ -1,16 +1,23 @@
 import * as Factory from 'factory.ts'
-import { DBRItem } from '~/datatypes/domains/clear/details'
+import { WriteModel, ReadModel } from '~/datatypes/domains/clear/details'
 
-export const defaultState: DBRItem = {
-  bp: '0',
-  clearRamp: 'FAILED',
-  difficulty: 'Normal',
-  level: 1,
+export const defaultStateForCommand: WriteModel = {
+  id: '',
+  bp: '',
+  clearRamp: 'NO PLAY',
   result: '',
-  score: '0',
+  score: '',
   scoreRank: 'F',
-  title: '',
 }
 
-export const dbrItemFactory = (dbrItem: DBRItem) =>
-  Factory.Sync.makeFactory<DBRItem>(dbrItem)
+export const defaultStateForQuery: ReadModel = {
+  level: 1,
+  title: '',
+  difficulty: 'Normal',
+}
+
+export const dbrItemFactoryForCommand = (dbrItem: WriteModel) =>
+  Factory.Sync.makeFactory<WriteModel>(dbrItem)
+
+export const dbrItemFactoryForQuery = (dbrItem: ReadModel) =>
+  Factory.Sync.makeFactory<ReadModel>(dbrItem)
