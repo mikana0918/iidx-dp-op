@@ -5,7 +5,7 @@ name: deploy
 on: [push]
 
 env:
-  BUILD_DIR: './dist'
+  BUILD_DIR: 'dist'
 
 jobs:
   # This job will:
