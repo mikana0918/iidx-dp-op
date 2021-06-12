@@ -11,10 +11,10 @@
         dialogTitle
       }}</template></DialogToolbarPresentation
     >
-    <v-card>
+    <Card>
       <!-- modal contents -->
       <slot name="contents" @handle-input="handleInput"></slot>
-    </v-card>
+    </Card>
   </v-dialog>
 </template>
 
@@ -25,10 +25,12 @@ import {
   WriteModel as DBRWriteModel,
 } from '~/datatypes/domains/clear/details'
 import DialogToolbarPresentation from '~/components/global/dialogs/Presentation/dbr/elements/DialogToolbarPresentation.vue'
+import Card from '~/components/base/card/Card.vue'
 
 export default Vue.extend({
   components: {
     DialogToolbarPresentation,
+    Card,
   },
   props: {
     dialog: {

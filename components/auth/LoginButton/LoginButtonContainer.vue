@@ -1,16 +1,16 @@
 <template>
   <v-dialog v-model="dialog" max-width="70vw">
     <template #activator="{ on }">
-      <login-button-presentation
+      <LoginButtonPresentation
         v-show="!isAuthenticated"
         v-on="on"
         @show-dialog="showDialog"
-      ></login-button-presentation>
+      ></LoginButtonPresentation>
     </template>
-    <login-modal-presentation
+    <LoginModalPresentation
       @show-dialog="showDialog"
       @google-login="googleLogin"
-    ></login-modal-presentation>
+    ></LoginModalPresentation>
   </v-dialog>
 </template>
 
