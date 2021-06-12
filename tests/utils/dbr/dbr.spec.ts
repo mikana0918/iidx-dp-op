@@ -43,3 +43,8 @@
 //     expect(updatedList).toStrictEqual(expectation)
 //   })
 // })
+describe('ignore no assertion', () => {
+  it('should ignore failing above commented out test', () => {
+    expect(true).toBeTruthy()
+  })
+})
