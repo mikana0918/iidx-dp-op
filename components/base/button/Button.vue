@@ -42,7 +42,7 @@ export default Vue.extend({
   },
   methods: {
     handleClick() {
-      this.$emit('clicked')
+      this.$emit('click')
     },
   },
 })

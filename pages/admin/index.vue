@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Button @clicked="setMasterDataForKaidenForTenkuu">
+    <Button @click="setMasterDataForKaidenForTenkuu">
       Set Master Data for DBR kaiden for tennkuu
     </Button>
-    <Button @clicked="setDefaultMyDBRListForKaidenForTenkuu">
+    <Button @click="setDefaultMyDBRListForKaidenForTenkuu">
       set Default My DBRList For KaidenFor Tenkuu
     </Button>
   </div>
