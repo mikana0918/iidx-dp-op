@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <whole-screen-loader :is-loading="loading"></whole-screen-loader>
+    <WholeScreenLoader :is-loading="loading"></WholeScreenLoader>
     <v-card-title class="headline font-weight-regular primary white--text">
       IIDX ID
     </v-card-title>
@@ -16,8 +16,8 @@
       ></TextField>
     </v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn
-        class="ma-2"
+      <Button
+        klass="ma-2"
         depressed
         color="primary"
         :loading="onSaveComponentLoading"
@@ -25,7 +25,7 @@
         @click="saveIIDXId()"
       >
         Save
-      </v-btn>
+      </Button>
     </v-card-actions>
   </v-card>
 </template>
@@ -33,8 +33,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
-import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
+import WholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 import TextField from '~/components/base/input/text/TextField.vue'
+import Button from '~/components/base/button/Button.vue'
 
 interface DataTypes {
   rules: Array<boolean | string | Function>
@@ -44,7 +45,7 @@ interface DataTypes {
 }
 
 export default Vue.extend({
-  components: { wholeScreenLoader, TextField },
+  components: { WholeScreenLoader, TextField, Button },
   asyncData({ app }: Context) {
     const uid = app.$accessor.auth?.uid
     app.$accessor.firestore.findMyIIDXData({ uid })
