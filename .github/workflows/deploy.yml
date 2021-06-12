@@ -6,16 +6,15 @@ on: [push]
 
 env:
   BUILD_DIR: './dist'
-  PRD_BRANCH: 'refs/heads/main'
 
 jobs:
   # This job will:
-  #   * deploy a draft every time there is a commit that is not on ${{ env.PRD_BRANCH }} branch
+  #   * deploy a draft every time there is a commit that is not on 'refs/heads/main' branch
   #   * comment on that commit with the deploy URL
   deployCommitDraft:
     name: Deploy draft to Netlify
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref != ${{ env.PRD_BRANCH }}
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
@@ -45,7 +44,7 @@ jobs:
   publishMasterCommit:
     name: Publish to Netlify
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == ${{ env.PRD_BRANCH }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
