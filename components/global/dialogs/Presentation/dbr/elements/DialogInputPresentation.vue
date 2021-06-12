@@ -63,7 +63,6 @@ import TextField from '~/components/base/input/text/TextField.vue'
 import Divider from '~/components/base/divider/Divider.vue'
 import { clearRamps, ClearRamp } from '~/datatypes/domains/result/types'
 import { WriteModel, ReadModel } from '~/datatypes/domains/clear/details'
-// import { cloneDeep } from '~/utils/object/cloneDeep'
 
 interface DataType {
   input: WriteModel
@@ -72,45 +71,58 @@ interface DataType {
 export default Vue.extend({
   components: { TextField, Divider },
   props: {
-    dialogItemMaster: {
-      type: Array as PropType<ReadModel[]>,
+    dialogItemInput: {
+      type: Object as PropType<WriteModel>,
       required: true,
     },
-    dialogItemInput: {
-      type: Array as PropType<WriteModel[]>,
+    selectedDbrItemMaster: {
+      type: Object as PropType<ReadModel>,
       required: true,
     },
   },
   data(): DataType {
     return {
-      input: { clearRamp: 'NO PLAY' } as WriteModel,
+      input: {
+        clearRamp: 'NO PLAY',
+      } as WriteModel,
     }
   },
   computed: {
     clearRampsMaster(): ClearRamp[] {
       return clearRamps
     },
+    masterId(): number {
+      return this.selectedDbrItemMaster.id
+    },
+    indexedInput: {
+      get(): WriteModel {
+        return { ...this.input, masterId: this.masterId }
+      },
+    },
   },
   watch: {
-    // dialogItem(newVal: ReadModel): void {
-    //   this.input = cloneDeep({ obj: newVal })
-    // },
+    dialogItemInput(newVal: WriteModel) {
+      this.input = { ...this.input, ...newVal }
+    },
+  },
+  created() {
+    this.input = { ...this.input, ...this.dialogItemInput }
   },
   methods: {
     syncScore({ input }: { input: string }) {
       this.input.score = input
 
-      this.$emit('input', { input: this.input })
+      this.$emit('input', { input: this.indexedInput })
     },
     syncBp({ input }: { input: string }) {
       this.input.bp = input
 
-      this.$emit('input', { input: this.input })
+      this.$emit('input', { input: this.indexedInput })
     },
     syncClearRamp(input: ClearRamp) {
       this.input.clearRamp = input
 
-      this.$emit('input', { input: this.input })
+      this.$emit('input', { input: this.indexedInput })
     },
   },
 })

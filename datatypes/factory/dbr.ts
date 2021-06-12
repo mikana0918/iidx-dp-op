@@ -2,7 +2,7 @@ import * as Factory from 'factory.ts'
 import { WriteModel, ReadModel } from '~/datatypes/domains/clear/details'
 
 export const defaultStateForCommand: WriteModel = {
-  id: '',
+  masterId: 0,
   bp: '',
   clearRamp: 'NO PLAY',
   result: '',
@@ -11,6 +11,7 @@ export const defaultStateForCommand: WriteModel = {
 }
 
 export const defaultStateForQuery: ReadModel = {
+  id: 0,
   level: 1,
   title: '',
   difficulty: 'Normal',

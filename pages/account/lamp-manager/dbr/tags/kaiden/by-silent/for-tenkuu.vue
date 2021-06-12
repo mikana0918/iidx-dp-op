@@ -47,9 +47,17 @@
             >({{ item.difficulty }})</span
           >
         </template>
+        <!-- clearRamp -->
+        <template #[`item.clearRamp`]="{ item }">
+          <div>{{ getClerRamp({ rm: item }) }}</div>
+        </template>
         <!-- bp -->
         <template #[`item.bp`]="{ item }">
-          {{ item.bp }}
+          {{ getBp({ rm: item }) }}
+        </template>
+        <!-- result -->
+        <template #[`item.result`]="{ item }">
+          {{ getResult({ rm: item }) }}
         </template>
         <!-- action -->
         <template #[`item.actions`]="{ item }">
@@ -61,8 +69,8 @@
     </div>
     <FullScreenDialogContainer
       :dialog="dialog"
-      :dialog-item-master="dbrMaster"
-      :dialog-item-input="myDbrList"
+      :selected-dbr-item-master="selectedDbrItemMaster"
+      :dialog-item-input="input"
       @save="save"
       @close-dialog="closeDialog"
     ></FullScreenDialogContainer>
@@ -78,8 +86,8 @@ import {
 } from '~/datatypes/domains/clear/details'
 import ExternalLink from '~/components/base/link/ExternalLink.vue'
 import FullScreenDialogContainer from '~/components/global/dialogs/Container/dbr/FullScreenDialogContainer.vue'
+import { cloneDeep } from '~/utils/object/cloneDeep'
 import { defaultStateForCommand } from '~/datatypes/factory/dbr'
-// import { updateByTitle } from '~/utils/dbr/index'
 
 interface DataTableTypes {
   text: string
@@ -95,7 +103,8 @@ interface DataTypes {
   search: string
   readonly headers: Array<DataTableTypes>
   dialog: boolean
-  readonly defaultDialogInput: DBRWriteModel
+  input: DBRWriteModel
+  selectedDbrItemMaster: DBRReadModel
 }
 
 export default Vue.extend({
@@ -151,21 +160,14 @@ export default Vue.extend({
         },
       ],
       dialog: false,
-      defaultDialogInput: defaultStateForCommand,
+      input: {} as DBRWriteModel,
+      selectedDbrItemMaster: {} as DBRReadModel,
     }
   },
   fetch() {
     const uid: string = this.$accessor.auth.uid
     this.$accessor.dbr.readMasterDataForKaidenForTenkuu()
     this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
-    // const uid: string = this.$accessor.auth.uid
-    // this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
-    // if (
-    //   !this.$accessor.dbr.dbrListForKaiden?.dbrMaster && // not undefined
-    //   !this.$accessor.dbr.dbrListForKaiden?.dbrMaster?.length // not empty array
-    // ) {
-    //   this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid }) // migrate firestore schema
-    // }
   },
   computed: {
     dbrMaster(): DBRReadModel[] {
@@ -175,11 +177,18 @@ export default Vue.extend({
     },
     myDbrList(): DBRWriteModel[] {
       const { succeeded, dbrItems } = this.$accessor.dbr.dbrListForKaiden
+      if (!dbrItems) {
+        return []
+      }
 
-      return succeeded ? dbrItems : []
+      return succeeded ? cloneDeep({ obj: dbrItems }) : []
     },
   },
-  watch: {},
+  watch: {
+    input(newVal) {
+      this.input = newVal
+    },
+  },
   created() {
     this.isWholeScreenLoading = true
   },
@@ -188,23 +197,74 @@ export default Vue.extend({
   },
   methods: {
     editItem({ item }: { item: DBRReadModel }) {
-      this.$logger.info(`clicked: pages:`, item)
+      this.$logger.info(`clicked: editItem: ${item}`)
 
+      this.selectedDbrItemMaster = item
+      const f: DBRWriteModel | undefined = this.myDbrList.find(
+        (l) => l.masterId === item.id
+      )
+
+      this.input = f || defaultStateForCommand
       this.dialog = true
     },
     closeDialog() {
+      this.selectedDbrItemMaster = {
+        id: 0,
+        level: 1,
+        title: '',
+        difficulty: 'Normal',
+      }
+
       this.dialog = false
     },
     save({ input }: { input: DBRWriteModel }) {
-      this.$logger.info('save(PARENT: page): ', input)
+      let storeData = this.myDbrList.map((l: DBRWriteModel) => {
+        // update with new value
+        if (l.masterId === input.masterId) {
+          return input
+        }
 
-      // const dbrData = updateByTitle({ list: this.dbrMaster, item: input })
-      // const uid = this.$accessor.auth?.uid
+        return l
+      })
 
-      // this.$accessor.dbr.updateMyDBRListForKaidenForTenkuu({ uid, dbrData })
-      // this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+      const hasInput = storeData.find((s) => s.masterId === input.masterId)
+      if (!hasInput) {
+        // insert new value
+        storeData = [...storeData, input]
+      }
 
+      const uid = this.$accessor.auth.uid
+      this.$accessor.dbr.updateMyDBRListForKaidenForTenkuu({
+        uid,
+        dbrData: storeData,
+      })
+
+      this.refetch({ uid })
       this.closeDialog()
+    },
+    refetch({ uid }: { uid: string }) {
+      this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+    },
+    getClerRamp({ rm }: { rm: DBRReadModel }) {
+      const f = this.myDbrList.find((l) => {
+        return l.masterId === rm.id
+      })
+
+      return f ? f.clearRamp : ''
+    },
+    getBp({ rm }: { rm: DBRReadModel }) {
+      const f = this.myDbrList.find((l) => {
+        return l.masterId === rm.id
+      })
+
+      return f ? f.bp : ''
+    },
+    getResult({ rm }: { rm: DBRReadModel }) {
+      const f = this.myDbrList.find((l) => {
+        return l.masterId === rm.id
+      })
+
+      return f ? f.result : ''
     },
   },
 })

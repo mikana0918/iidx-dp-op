@@ -35,12 +35,12 @@ export default Vue.extend({
       type: Boolean,
       required: true,
     },
-    dialogItemMaster: {
-      type: Array as PropType<DBRReadModel[]>,
+    dialogItemInput: {
+      type: Object as PropType<DBRWriteModel>,
       required: true,
     },
-    dialogItemInput: {
-      type: Array as PropType<DBRReadModel[]>,
+    selectedDbrItemMaster: {
+      type: Object as PropType<DBRReadModel>,
       required: true,
     },
   },
@@ -54,7 +54,7 @@ export default Vue.extend({
       },
     },
     dialogTitle(): string {
-      return `☆${this.dialogItemMaster.level} ${this.dialogItemMaster.title} (${this.dialogItemMaster.difficulty})`
+      return `☆${this.selectedDbrItemMaster.level} ${this.selectedDbrItemMaster.title} (${this.selectedDbrItemMaster.difficulty})`
     },
   },
   methods: {

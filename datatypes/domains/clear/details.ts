@@ -13,9 +13,6 @@ interface DBRItem {
   result: string
   score: string
   scoreRank: ScoreRank
-  // difficulty: Difficulty
-  // level: Level
-  // title: string
 }
 
 /**
@@ -28,6 +25,8 @@ interface DBRMaster {
 }
 
 export interface WriteModel extends DBRItem {
-  id: string
+  masterId: number
 }
-export interface ReadModel extends DBRMaster {}
+export interface ReadModel extends DBRMaster {
+  id: number
+}
