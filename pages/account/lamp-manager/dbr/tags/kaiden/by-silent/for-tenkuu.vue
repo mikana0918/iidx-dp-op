@@ -166,8 +166,8 @@ export default Vue.extend({
   },
   fetch() {
     const uid: string = this.$accessor.auth.uid
-    this.$accessor.dbr.readMasterDataForKaidenForTenkuu()
-    this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+    this.$accessor.dbr.readMasterDataForTenkuu()
+    this.$accessor.dbr.getMyListForTenkuu({ uid })
   },
   computed: {
     dbrMaster(): DBRReadModel[] {
@@ -197,8 +197,6 @@ export default Vue.extend({
   },
   methods: {
     editItem({ item }: { item: DBRReadModel }) {
-      this.$logger.info(`clicked: editItem: ${item}`)
-
       this.selectedDbrItemMaster = item
       const f: DBRWriteModel | undefined = this.myDbrList.find(
         (l) => l.masterId === item.id
@@ -234,7 +232,7 @@ export default Vue.extend({
       }
 
       const uid = this.$accessor.auth.uid
-      this.$accessor.dbr.updateMyDBRListForKaidenForTenkuu({
+      this.$accessor.dbr.updateMyListForTenkuu({
         uid,
         dbrData: storeData,
       })
@@ -243,7 +241,7 @@ export default Vue.extend({
       this.closeDialog()
     },
     refetch({ uid }: { uid: string }) {
-      this.$accessor.dbr.getMyDBRListForKaidenForTenkuu({ uid })
+      this.$accessor.dbr.getMyListForTenkuu({ uid })
     },
     getClerRamp({ rm }: { rm: DBRReadModel }) {
       const f = this.myDbrList.find((l) => {
