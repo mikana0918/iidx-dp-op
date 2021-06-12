@@ -16,7 +16,7 @@
       </v-list-item-avatar>
     </v-list-item>
 
-    <v-divider></v-divider>
+    <Divider></Divider>
 
     <login-button-container
       :is-authenticated="isAuthenticated"
@@ -25,7 +25,7 @@
       :is-authenticated="isAuthenticated"
     ></logout-button-container>
 
-    <v-divider></v-divider>
+    <Divider></Divider>
   </div>
 </template>
 
@@ -33,11 +33,13 @@
 import Vue from 'vue'
 import LoginButtonContainer from '~/components/auth/LoginButton/LoginButtonContainer.vue'
 import LogoutButtonContainer from '~/components/auth/LogoutButton/LogoutButtonContainer.vue'
+import Divider from '~/components/base/divider/Divider.vue'
 
 export default Vue.extend({
   components: {
     LoginButtonContainer,
     LogoutButtonContainer,
+    Divider,
   },
   props: {
     isAuthenticated: {

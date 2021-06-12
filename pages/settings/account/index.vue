@@ -27,7 +27,7 @@
             </v-list-item>
           </nuxt-link>
 
-          <v-divider v-if="index < items.length - 1" :key="index"></v-divider>
+          <Divider v-if="index < items.length - 1" :key="index"></Divider>
         </template>
       </v-list-item-group>
     </v-list>
@@ -36,8 +36,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Divider from '~/components/base/divider/Divider.vue'
 
 export default Vue.extend({
+  components: {
+    Divider,
+  },
   middleware: ['auth/beforeAuth'],
   data: () => ({
     selected: [],
