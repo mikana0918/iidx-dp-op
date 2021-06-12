@@ -13,6 +13,9 @@ const iidx12Data = JSON.parse(
 const dbrListForKaiden = JSON.parse(
   fs.readFileSync('assets/json/dbr/silent-kaiden-list.json', 'utf-8')
 )
+const dbrListForKaidenMaster = JSON.parse(
+  fs.readFileSync('assets/json/dbr/silent-kaiden-list-master.json')
+)
 
 export default {
   target: 'static',
@@ -34,15 +37,20 @@ export default {
   },
 
   env: {
-    iidx12Data, // [todo] delete once list config json has been rremoved
-    dbrListForKaiden, // [todo] delete once list config json has been rremoved
+    dev: process.env.ENV,
+    iidx12Data, // [todo] delete once list config json has been removed
+    dbrListForKaiden, // [todo] delete once list config json has been removed
+    dbrListForKaidenMaster, // [todo] delete once list config json has been removed
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/logger/index.ts' },
+    { src: '~/plugins/emoji/index.ts' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -62,6 +70,8 @@ export default {
         filename: envPath,
       },
     ],
+    // https://www.npmjs.com/package/@nuxtjs/style-resources
+    '@nuxtjs/style-resources',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -76,6 +86,7 @@ export default {
   axios: {
     // baseURL: process.env.WEB_ENDPOINT,
     // credentials: true,
+    debug: process.env.AXIOS_DEBUG,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -87,7 +98,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/assets/stylesheets/scss/vuetify/variables.scss'],
     theme: {
       dark: true,
       themes: {
@@ -105,7 +116,24 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extend(config, _ctx) {
+      config.node = {
+        fs: 'empty',
+      }
+    },
+  },
 
   proxy: {},
+
+  // @nuxtjs/style-resources
+  // https://www.npmjs.com/package/@nuxtjs/style-resources
+  styleResources: {
+    // your settings here
+    sass: [],
+    scss: ['~/assets/stylesheets/scss/*.scss'],
+    less: [],
+    stylus: [],
+    hoistUseStatements: true, // Hoists the "@use" imports. Applies only to "sass", "scss" and "less". Default: false.
+  },
 }

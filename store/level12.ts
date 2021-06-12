@@ -29,12 +29,12 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    getDPOptionsData(this, { commit }) {
+    getDPOptions(this, { commit }) {
       try {
         commit('SET_DP_OPTIONS_DATA_SUCCESS', { data: process.env.iidx12Data })
       } catch (e) {
-        console.warn(e)
-        commit('SET_DP_OPTIONS_DATA_FAIL', e.response)
+        this.$logger.warn(e)
+        commit('SET_DP_OPTIONS_DATA_FAIL', e)
       }
     },
   }

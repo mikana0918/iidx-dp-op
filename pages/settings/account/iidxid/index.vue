@@ -6,14 +6,14 @@
     </v-card-title>
     <v-card-text>
       <v-subheader class="pa-0"> What is your IIDX ID? </v-subheader>
-      <v-text-field
-        v-model="iidxIdInput"
+      <TextField
+        :input="iidxIdInput"
         label="IIDX ID"
         :rules="rules"
-        hide-details="auto"
+        hide-detailes="auto"
         :disabled="onSaveComponentLoading"
-      >
-      </v-text-field>
+        @input="mutateInput"
+      ></TextField>
     </v-card-text>
     <v-card-actions class="justify-center">
       <v-btn
@@ -34,14 +34,22 @@
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
 import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
+import TextField from '~/components/base/input/text/TextField.vue'
+
+interface DataTypes {
+  rules: Array<boolean | string | Function>
+  iidxIdInput: string
+  loading: boolean
+  onSaveComponentLoading: boolean
+}
 
 export default Vue.extend({
-  components: { wholeScreenLoader },
-  async asyncData({ app }: Context) {
-    const uid = await app.$accessor.auth?.uid
-    await app.$accessor.firestore.findMyIIDXData({ uid })
+  components: { wholeScreenLoader, TextField },
+  asyncData({ app }: Context) {
+    const uid = app.$accessor.auth?.uid
+    app.$accessor.firestore.findMyIIDXData({ uid })
   },
-  data() {
+  data(): DataTypes {
     return {
       rules: [(value: string) => !!value || 'Required.'],
       iidxIdInput: '',
@@ -84,6 +92,9 @@ export default Vue.extend({
       this.onSaveComponentLoading = false
 
       this.$accessor.snackbar.showWithNotification({ text: 'Save Success!' })
+    },
+    mutateInput({ input }: { input: string }) {
+      this.iidxIdInput = input
     },
   },
 })

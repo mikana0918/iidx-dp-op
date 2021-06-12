@@ -43,6 +43,5 @@ jobs:
       - name: Run linter 👀
         run: npm run lint
 
-      # comment out if any test need to run
-      # - name: Run tests 🧪
-      #   run: npm run test
+      - name: Run tests 🧪
+        run: npm run test

@@ -16,6 +16,8 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/style-resources": "^1.1.0",
+    "consola": "^2.15.3",
     "core-js": "^3.14.0",
     "firebase": "^8.6.7",
     "nuxt": "^2.15.6",
@@ -24,9 +26,12 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.6",
     "@nuxt/typescript-build": "^2.1.0",
+    "@nuxtjs/eslint-config": "^6.0.1",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/vuetify": "^1.11.3",
+    "@types/jest": "^26.0.23",
+    "@typescript-eslint/parser": "^4.26.1",
     "@vue/test-utils": "^1.2.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -36,9 +41,14 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.10.0",
+    "factory.ts": "^0.5.2",
+    "fibers": "^5.0.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.1",
+    "sass": "^1.34.1",
+    "sass-loader": "^10.2.0",
     "ts-jest": "^27.0.3",
+    "typescript": "^4.3.2",
     "vue-jest": "^3.0.4"
   }
 }
