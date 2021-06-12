@@ -1,8 +1,7 @@
 <template>
   <div>
-    <whole-screen-loader
-      :is-loading="isWholeScreenLoading"
-    ></whole-screen-loader>
+    <WholeScreenLoader :is-loading="isWholeScreenLoading"></WholeScreenLoader>
+    <!-- card to explain the list -->
     <v-card elevation="2">
       <v-card-subtitle
         >What is this list? see:
@@ -13,6 +12,8 @@
         >
       </v-card-subtitle>
     </v-card>
+    <!-- table searcher -->
+    <!-- todo: need this component to be separated -->
     <div class="container table-search">
       <v-card-title>
         <v-text-field
@@ -24,6 +25,7 @@
         ></v-text-field>
       </v-card-title>
     </div>
+    <!-- datatable -->
     <div class="table-data">
       <v-data-table
         :headers="headers"
@@ -67,6 +69,7 @@
         </template>
       </v-data-table>
     </div>
+    <!-- dialog -->
     <FullScreenDialogContainer
       :dialog="dialog"
       :selected-dbr-item-master="selectedDbrItemMaster"
@@ -79,7 +82,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import wholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
+import WholeScreenLoader from '~/components/global/loadings/whole-screen-loader.vue'
 import {
   WriteModel as DBRWriteModel,
   ReadModel as DBRReadModel,
@@ -108,7 +111,7 @@ interface DataTypes {
 }
 
 export default Vue.extend({
-  components: { wholeScreenLoader, ExternalLink, FullScreenDialogContainer },
+  components: { WholeScreenLoader, ExternalLink, FullScreenDialogContainer },
   middleware: ['auth/beforeAuth'],
   data(): DataTypes {
     return {
