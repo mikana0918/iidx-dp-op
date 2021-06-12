@@ -5,6 +5,7 @@
     :color="color"
     :loading="loading"
     :disabled="disabled"
+    :block="block"
     @click="handleClick"
   >
     <slot></slot>
@@ -21,7 +22,7 @@ export default Vue.extend({
   props: {
     klass: {
       type: String,
-      default: 'ma-2',
+      default: '',
     },
     depressed: {
       type: Boolean,
@@ -36,6 +37,10 @@ export default Vue.extend({
       default: false,
     },
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    block: {
       type: Boolean,
       default: false,
     },
