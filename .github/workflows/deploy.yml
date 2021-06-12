@@ -5,7 +5,7 @@ name: deploy
 on: [push]
 
 env:
-  BUILD_DIR: 'dist'
+  BUILD_DIR: './dist'
 
 jobs:
   # This job will:
@@ -51,6 +51,11 @@ jobs:
 
       # ... your other build steps to produce a build directory
       # e.g. `npm run build` for create-react-app
+      - name: Install dependencies 👨🏻‍💻
+        run: npm ci
+
+      - name: Build as SSG
+        run: npm run generate
 
       - name: Deploy production to Netlify
         uses: South-Paw/action-netlify-deploy@v1.2.0
