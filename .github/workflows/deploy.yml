@@ -1,19 +1,21 @@
-# @see https://github.com/South-Paw/action-netlify-deploy#deploying-drafts-on-each-commit-and-publishing-on-push-to-master
+# @see https://github.com/South-Paw/action-netlify-deploy#deploying-drafts-on-each-commit-and-publishing-on-push-to-
+
 name: deploy
 
 on: [push]
 
 env:
   BUILD_DIR: './dist'
+  PRD_BRANCH: 'refs/heads/main'
 
 jobs:
   # This job will:
-  #   * deploy a draft every time there is a commit that is not on master branch
+  #   * deploy a draft every time there is a commit that is not on ${{ env.PRD_BRANCH }} branch
   #   * comment on that commit with the deploy URL
   deployCommitDraft:
     name: Deploy draft to Netlify
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref != 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref != ${{ env.PRD_BRANCH }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
@@ -43,7 +45,7 @@ jobs:
   publishMasterCommit:
     name: Publish to Netlify
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == ${{ env.PRD_BRANCH }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
