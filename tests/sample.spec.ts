@@ -13,7 +13,7 @@ test('displays message', () => {
       msg: 'Hello world',
     },
   })
-  expect(wrapper.isVueInstance()).toBeTruthy()
+  expect(wrapper.vm).toBeTruthy()
 
   // Assert the rendered text of the component
   expect(wrapper.text()).toContain('Hello world')
