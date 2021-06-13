@@ -18,7 +18,6 @@ export default Vue.extend({
   // middleware: ['auth/onlyAdmin'],
   methods: {
     setMasterDataForTenkuu() {
-      this.$logger.info('called on component: setMasterDataForTenkuu')
       this.$accessor.dbr.setMasterDataForTenkuu()
       if (this.$accessor.dbr.initialDataForKaidenTenkuu.succeeded) {
         this.$accessor.snackbar.showWithNotification({
@@ -27,7 +26,6 @@ export default Vue.extend({
       }
     },
     setDefaultMyListForTenkuu() {
-      this.$logger.info('called on component: setDefaultMyListForTenkuu')
       const uid: string = this.$accessor.auth.uid
       this.$accessor.dbr.setDefaultMyListForTenkuu({ uid })
       if (this.$accessor.dbr.initialDataForKaidenTenkuu.succeeded) {
