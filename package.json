@@ -20,6 +20,7 @@
     "consola": "^2.15.3",
     "core-js": "^3.14.0",
     "firebase": "^8.6.7",
+    "flush-promises": "^1.0.2",
     "nuxt": "^2.15.6",
     "nuxt-typed-vuex": "^0.2.0"
   },
