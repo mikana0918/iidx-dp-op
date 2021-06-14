@@ -23,7 +23,8 @@ jobs:
       # e.g. `npm run build` for create-react-app
 
       - name: Install dependencies 👨🏻‍💻
-        run: npm ci
+        # run: npm ci
+        run: npm install
 
       - name: Build as SSG
         run: npm run generate
@@ -52,7 +53,8 @@ jobs:
       # ... your other build steps to produce a build directory
       # e.g. `npm run build` for create-react-app
       - name: Install dependencies 👨🏻‍💻
-        run: npm ci
+        # run: npm ci
+        run: npm install
 
       - name: Build as SSG
         run: npm run generate
