@@ -1,23 +1,27 @@
 <template>
   <v-toolbar dark color="primary">
-    <v-btn icon dark @click="toggleDialog()">
+    <Button icon dark color="white" @click="toggleDialog()">
       <v-icon>mdi-close</v-icon>
-    </v-btn>
+    </Button>
 
     <slot name="title"></slot>
 
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn dark text @click="save()"> Save </v-btn>
+      <Button dark text color="white" @click="save()"> Save </Button>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import Button from '~/components/base/button/Button.vue'
 
 export default Vue.extend({
+  components: {
+    Button,
+  },
   methods: {
     toggleDialog() {
       this.$emit('close-dialog')

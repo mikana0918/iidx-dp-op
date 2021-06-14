@@ -5,6 +5,10 @@
     :color="color"
     :loading="loading"
     :disabled="disabled"
+    :block="block"
+    :icon="icon"
+    :dark="dark"
+    :text="text"
     @click="handleClick"
   >
     <slot></slot>
@@ -21,7 +25,7 @@ export default Vue.extend({
   props: {
     klass: {
       type: String,
-      default: 'ma-2',
+      default: '',
     },
     depressed: {
       type: Boolean,
@@ -39,10 +43,26 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    block: {
+      type: Boolean,
+      default: false,
+    },
+    icon: {
+      type: Boolean,
+      default: false,
+    },
+    dark: {
+      type: Boolean,
+      default: false,
+    },
+    text: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     handleClick() {
-      this.$emit('clicked')
+      this.$emit('click')
     },
   },
 })

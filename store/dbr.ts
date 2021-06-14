@@ -77,13 +77,14 @@ export const actions = actionTree(
   {
     /**
      * Set master data of 天空の夜明け(Tenkuu No Yoake) practice list.
-     * [TODO] This is an admin feature. Should be removed to admin store?
+     *
+     * @todo This is an admin feature. Should be removed to admin store?
      * Or create admin repo?
      *
      * @param {Store} this
      * @param {Commit} { commit }
      */
-    setMasterDataForKaidenForTenkuu(this, { commit }) {
+    setMasterDataForTenkuu(this, { commit }) {
       firestore
         .collection(collection)
         .doc('master')
@@ -103,14 +104,11 @@ export const actions = actionTree(
     },
     /**
      * Set master data of 天空の夜明け(Tenkuu No Yoake) practice list.
-     * [TODO] This is an admin feature. Should be removed to admin store?
-     * Or create admin repo?
      *
      * @param {Store} this
      * @param {Commit} { commit }
      */
-    readMasterDataForKaidenForTenkuu(this, { commit }) {
-      this.$logger.info('called: setMasterDataForKaidenForTenkuu')
+    readMasterDataForTenkuu(this, { commit }) {
       firestore
         .collection(collection)
         .doc('master')
@@ -139,7 +137,7 @@ export const actions = actionTree(
      * @param {Commit} commit
      * @param {uid} uid
      */
-    getMyDBRListForKaidenForTenkuu(this, { commit }, { uid }: { uid: string }) {
+    getMyListForTenkuu(this, { commit }, { uid }: { uid: string }) {
       firestore
         .collection(collection)
         .doc(uid)
@@ -148,7 +146,7 @@ export const actions = actionTree(
           if (doc.exists) {
             commit('SET_DBR_LIST_DATA_SUCCESS', { data: doc.data()?.dbr_data })
           } else {
-            this.$logger.warn('No such document! / dbr 皆伝:天空の夜明け')
+            this.$logger.warn(`${this.$emoji.logging.halo} No such document!`)
           }
         })
         .catch((error) => {
@@ -164,11 +162,7 @@ export const actions = actionTree(
      * @param { Commit } commit
      * @param { uid } uid
      */
-    setDefaultMyDBRListForKaidenForTenkuu(
-      this,
-      { commit },
-      { uid }: { uid: string }
-    ) {
+    setDefaultMyListForTenkuu(this, { commit }, { uid }: { uid: string }) {
       firestore
         .collection(collection)
         .doc(uid)
@@ -183,7 +177,15 @@ export const actions = actionTree(
           commit('SET_INITIAL_DBR_DATA_FOR_KAIDEN_TENKUU_FAIL')
         })
     },
-    updateMyDBRListForKaidenForTenkuu(
+    /**
+     * 天空の夜明け(Tenkuu No Yoake) DBR Practice List
+     * Store user configured data by WriteModel.
+     *
+     * @param {Store} this
+     * @param { Commit } commit
+     * @param { uid } uid
+     */
+    updateMyListForTenkuu(
       this,
       { commit },
       { uid, dbrData }: { uid: string; dbrData: WriteModel[] }

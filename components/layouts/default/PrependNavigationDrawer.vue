@@ -9,6 +9,7 @@
         <v-list-item-title>{{ authUser.displayName }}</v-list-item-title>
         <v-list-item-subtitle>Logged In</v-list-item-subtitle>
       </v-list-item-content>
+
       <v-list-item-avatar style="cursor: pointer">
         <nuxt-link to="/settings/account" style="text-decoration: none">
           <v-icon mb2 right color="white"> mdi-cog-outline </v-icon>
@@ -16,16 +17,16 @@
       </v-list-item-avatar>
     </v-list-item>
 
-    <v-divider></v-divider>
+    <Divider></Divider>
 
-    <login-button-container
+    <LoginButtonContainer
       :is-authenticated="isAuthenticated"
-    ></login-button-container>
-    <logout-button-container
+    ></LoginButtonContainer>
+    <LogoutButtonContainer
       :is-authenticated="isAuthenticated"
-    ></logout-button-container>
+    ></LogoutButtonContainer>
 
-    <v-divider></v-divider>
+    <Divider></Divider>
   </div>
 </template>
 
@@ -33,11 +34,13 @@
 import Vue from 'vue'
 import LoginButtonContainer from '~/components/auth/LoginButton/LoginButtonContainer.vue'
 import LogoutButtonContainer from '~/components/auth/LogoutButton/LogoutButtonContainer.vue'
+import Divider from '~/components/base/divider/Divider.vue'
 
 export default Vue.extend({
   components: {
     LoginButtonContainer,
     LogoutButtonContainer,
+    Divider,
   },
   props: {
     isAuthenticated: {

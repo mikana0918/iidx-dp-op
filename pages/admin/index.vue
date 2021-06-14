@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Button @clicked="setMasterDataForKaidenForTenkuu">
+    <Button @click="setMasterDataForTenkuu">
       Set Master Data for DBR kaiden for tennkuu
     </Button>
-    <Button @clicked="setDefaultMyDBRListForKaidenForTenkuu">
+    <Button @click="setDefaultMyListForTenkuu">
       set Default My DBRList For KaidenFor Tenkuu
     </Button>
   </div>
@@ -17,21 +17,17 @@ export default Vue.extend({
   components: { Button },
   // middleware: ['auth/onlyAdmin'],
   methods: {
-    setMasterDataForKaidenForTenkuu() {
-      this.$logger.info('called on component: setMasterDataForKaidenForTenkuu')
-      this.$accessor.dbr.setMasterDataForKaidenForTenkuu()
+    setMasterDataForTenkuu() {
+      this.$accessor.dbr.setMasterDataForTenkuu()
       if (this.$accessor.dbr.initialDataForKaidenTenkuu.succeeded) {
         this.$accessor.snackbar.showWithNotification({
           text: `set master data for tenkuu sucess!`,
         })
       }
     },
-    setDefaultMyDBRListForKaidenForTenkuu() {
-      this.$logger.info(
-        'called on component: setDefaultMyDBRListForKaidenForTenkuu'
-      )
+    setDefaultMyListForTenkuu() {
       const uid: string = this.$accessor.auth.uid
-      this.$accessor.dbr.setDefaultMyDBRListForKaidenForTenkuu({ uid })
+      this.$accessor.dbr.setDefaultMyListForTenkuu({ uid })
       if (this.$accessor.dbr.initialDataForKaidenTenkuu.succeeded) {
         this.$accessor.snackbar.showWithNotification({
           text: `set master data for tenkuu sucess!`,
