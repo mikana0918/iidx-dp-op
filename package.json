@@ -16,7 +16,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/style-resources": "^1.1.0",
+    "@nuxtjs/style-resources": "^1.2.0",
     "consola": "^2.15.3",
     "core-js": "^3.14.0",
     "firebase": "^8.6.8",
