@@ -36,4 +36,28 @@ jobs:
         run: npm run lint
 
       - name: Run tests 🧪
-        run: npm run test
+        run: | 
+          npm run test &> diff.txt
+          less diff.txt
+      - run: |
+          echo ${{ github.event.pull_request.number }}
+          echo ${{ steps.fc.outputs.comment-id }}
+      - id: get-comment-body
+        run: |
+          body="$(cat diff.txt)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}" 
+          echo "::set-output name=body::$body"
+      - name: Create comment
+#         if: steps.fc.outputs.comment-id == ''
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: | 
+            ## 🧪 test result 🧪
+            ```bash
+            ${{ steps.get-comment-body.outputs.body }}
+            ```
+          reactions: rocket
+          
