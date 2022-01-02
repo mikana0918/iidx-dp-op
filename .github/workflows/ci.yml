@@ -39,6 +39,9 @@ jobs:
         run: | 
           npm run test &> diff.txt
           less diff.txt
+      - run: |
+          echo ${{ github.event.pull_request.number }}
+          echo ${{ steps.fc.outputs.comment-id }}
       - id: get-comment-body
         run: |
           body="$(cat diff.txt)"
