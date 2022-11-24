@@ -44,7 +44,7 @@
     "factory.ts": "^0.5.2",
     "fibers": "^5.0.0",
     "jest": "^27.0.5",
-    "prettier": "^2.3.1",
+    "prettier": "^2.8.0",
     "sass": "^1.35.1",
     "sass-loader": "^12.1.0",
     "ts-jest": "^27.0.3",
